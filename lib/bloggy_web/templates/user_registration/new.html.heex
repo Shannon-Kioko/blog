@@ -30,7 +30,7 @@
 
   <div>
   <label for="user_terms_and_conditions">
-    <%= checkbox f, :terms_and_conditions %> I agree to the 
+    <%= checkbox f, :terms_and_conditions, required: true %> I agree to the 
     <%= link "Terms and Conditions", to: Routes.page_path(@conn, :terms), target: "_blank" %>
   </label>
   <%= error_tag f, :terms_and_conditions %>

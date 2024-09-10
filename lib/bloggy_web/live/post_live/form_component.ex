@@ -50,7 +50,7 @@ defmodule BloggyWeb.PostLive.FormComponent do
          |> put_flash(:info, "Post created successfully")
          |> push_redirect(to: socket.assigns.return_to)}
 
-      {:error, %Ecto.Changeset{} = changeset} ->
+         {:error, %Ecto.Changeset{} = changeset} ->
           IO.inspect(changeset.errors)
         {:noreply, assign(socket, changeset: changeset)}
     end
