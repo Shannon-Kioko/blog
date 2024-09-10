@@ -37,6 +37,7 @@ defmodule Bloggy.Accounts.User do
     changeset
     |> put_change(:role, :admin)
   end
+
   @doc """
   A user changeset for registration.
 
@@ -56,10 +57,27 @@ defmodule Bloggy.Accounts.User do
   """
   def registration_changeset(user, attrs, opts \\ []) do
     user
-    |> cast(attrs, [:first_name, :last_name, :email, :phone, :password, :role, :terms_and_conditions])
+    |> cast(attrs, [
+      :first_name,
+      :last_name,
+      :email,
+      :phone,
+      :password,
+      :role,
+      :terms_and_conditions
+    ])
     # |> IO.inspect(attrs)
-    |> validate_required([:first_name, :last_name, :email, :phone, :password, :terms_and_conditions])
-    |> validate_acceptance(:terms_and_conditions, message: "You must accept the terms and conditions")
+    |> validate_required([
+      :first_name,
+      :last_name,
+      :email,
+      :phone,
+      :password,
+      :terms_and_conditions
+    ])
+    |> validate_acceptance(:terms_and_conditions,
+      message: "You must accept the terms and conditions"
+    )
     |> validate_email()
     |> validate_length(:phone, max: 10)
     |> validate_password(opts)

@@ -25,9 +25,7 @@ defmodule Bloggy.BlogFixtures do
   def comment_fixture(attrs \\ %{}) do
     {:ok, comment} =
       attrs
-      |> Enum.into(%{
-
-      })
+      |> Enum.into(%{})
       |> Bloggy.Blog.create_comment()
 
     comment

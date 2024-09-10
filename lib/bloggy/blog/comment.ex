@@ -3,7 +3,6 @@ defmodule Bloggy.Blog.Comment do
   import Ecto.Changeset
 
   schema "comments" do
-
     belongs_to :user, Bloggy.Accounts.User
     belongs_to :post, Bloggy.Blog.Post
     field :description, :string

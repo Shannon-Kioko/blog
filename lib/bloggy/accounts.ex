@@ -8,7 +8,7 @@ defmodule Bloggy.Accounts do
 
   alias Bloggy.Accounts.{User, UserToken, UserNotifier}
 
-  @doc"""
+  @doc """
   Registers an admin.
 
 
@@ -25,6 +25,7 @@ defmodule Bloggy.Accounts do
     |> User.admin_registration_changeset(attrs)
     |> Repo.insert()
   end
+
   ## Database getters
 
   @doc """

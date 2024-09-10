@@ -7,42 +7,45 @@
     </div>
   <% end %>
 
+  <%= label(f, :first_name) %>
+  <%= text_input(f, :first_name, required: true) %>
+  <%= error_tag(f, :first_name) %>
 
-  <%= label f, :first_name %>
-  <%= text_input f, :first_name, required: true %>
-  <%= error_tag f, :first_name %>
+  <%= label(f, :last_name) %>
+  <%= text_input(f, :last_name, required: true) %>
+  <%= error_tag(f, :last_name) %>
 
-  <%= label f, :last_name %>
-  <%= text_input f, :last_name, required: true %>
-  <%= error_tag f, :last_name %>
+  <%= label(f, :email) %>
+  <%= email_input(f, :email, required: true) %>
+  <%= error_tag(f, :email) %>
 
-  <%= label f, :email %>
-  <%= email_input f, :email, required: true %>
-  <%= error_tag f, :email %>
+  <%= label(f, :phone) %>
+  <%= text_input(f, :phone, required: true) %>
+  <%= error_tag(f, :phone) %>
 
-  <%= label f, :phone %>
-  <%= text_input f, :phone, required: true %>
-  <%= error_tag f, :phone %>
-
-  <%= label f, :password %>
-  <%= password_input f, :password, required: true %>
-  <%= error_tag f, :password %>
-
-  <div>
-  <label for="user_terms_and_conditions">
-    <%= checkbox f, :terms_and_conditions, required: true %> I agree to the 
-    <%= link "Terms and Conditions", to: Routes.page_path(@conn, :terms), target: "_blank" %>
-  </label>
-  <%= error_tag f, :terms_and_conditions %>
-</div>
-
+  <%= label(f, :password) %>
+  <%= password_input(f, :password, required: true) %>
+  <%= error_tag(f, :password) %>
 
   <div>
-    <%= submit "Register" %>
+    <label for="user_terms_and_conditions">
+      <%= checkbox(f, :terms_and_conditions, required: true) %> I agree to the <%= link(
+        "Terms and Conditions",
+        to: Routes.page_path(@conn, :terms),
+        target: "_blank"
+      ) %>
+    </label>
+    <%= error_tag(f, :terms_and_conditions) %>
+  </div>
+
+  <div>
+    <%= submit("Register") %>
   </div>
 </.form>
 
 <p>
-  <%= link "Log in", to: Routes.user_session_path(@conn, :new) %> |
-  <%= link "Forgot your password?", to: Routes.user_reset_password_path(@conn, :new) %>
+  <%= link("Log in", to: Routes.user_session_path(@conn, :new)) %> | <%= link(
+    "Forgot your password?",
+    to: Routes.user_reset_password_path(@conn, :new)
+  ) %>
 </p>

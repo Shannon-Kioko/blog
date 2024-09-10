@@ -9,5 +9,4 @@ defmodule BloggyWeb.PageController do
   def terms(conn, _params) do
     render(conn, "terms.html")
   end
-
 end
