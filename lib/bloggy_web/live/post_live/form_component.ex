@@ -41,8 +41,9 @@ defmodule BloggyWeb.PostLive.FormComponent do
   end
 
   defp save_post(socket, :new, post_params) do
-    post_params = Map.put(post_params, "user_id", socket.assigns.current_user.id)
+    # post_params = Map.put(post_params, "user_id", socket.assigns.current_user.id)
 
+    IO.inspect(post_params, label: "post params")
     case Blog.create_post(post_params) do
       {:ok, _post} ->
         {:noreply,
@@ -50,8 +51,8 @@ defmodule BloggyWeb.PostLive.FormComponent do
          |> put_flash(:info, "Post created successfully")
          |> push_redirect(to: socket.assigns.return_to)}
 
-         {:error, %Ecto.Changeset{} = changeset} ->
-          IO.inspect(changeset.errors)
+      {:error, %Ecto.Changeset{} = changeset} ->
+        IO.inspect(changeset.errors)
         {:noreply, assign(socket, changeset: changeset)}
     end
   end

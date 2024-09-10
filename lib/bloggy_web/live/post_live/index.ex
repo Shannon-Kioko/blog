@@ -4,9 +4,13 @@ defmodule BloggyWeb.PostLive.Index do
   alias Bloggy.Blog
   alias Bloggy.Blog.Post
 
+  alias Bloggy.Accounts
   @impl true
-  def mount(_params, _session, socket) do
-    {:ok, assign(socket, :posts, list_posts())}
+  def mount(_params, session, socket) do
+    IO.inspect(session, label: "session")
+    user = Accounts.get_user_by_session_token(session["user_token"])
+    IO.inspect(user, label: "user")
+    {:ok, socket |> assign(:posts, list_posts()) |> assign(current_user: user)}
   end
 
   @impl true

@@ -49,10 +49,8 @@ defmodule Bloggy.Blog do
       {:error, %Ecto.Changeset{}}
 
   """
-  def create_post(user, attrs \\ %{}) do
-    user
-    # %Post{}
-    |> Ecto.build_assoc(:posts, attrs)
+  def create_post(attrs \\ %{}) do
+    %Post{}
     |> Post.changeset(attrs)
     |> Repo.insert()
   end
