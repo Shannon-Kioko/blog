@@ -21,7 +21,7 @@ defmodule BloggyWeb.UserRegistrationController do
 
         conn
         |> put_flash(:info, "User created successfully.")
-        |> UserAuth.log_in_user(user)
+        |> redirect(to: Routes.user_session_path(conn, :create))
 
       {:error, %Ecto.Changeset{} = changeset} ->
         render(conn, "new.html", changeset: changeset)
