@@ -19,7 +19,7 @@ defmodule Bloggy.Accounts.User do
     field :role, RolesEnum, default: :user
     field :terms_and_conditions, :boolean, virtual: true
     has_many :posts, Bloggy.Blog.Post
-    has_many :comments, Bloggy.Blog.Comment
+    has_many :comments, Bloggy.Comments.Comment
 
     timestamps()
   end
