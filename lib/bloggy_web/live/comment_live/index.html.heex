@@ -16,31 +16,22 @@
 <table>
   <thead>
     <tr>
+
       <th></th>
     </tr>
   </thead>
   <tbody id="comments">
     <%= for comment <- @comments do %>
       <tr id={"comment-#{comment.id}"}>
+
         <td>
-          <span>
-            <%= live_redirect("Show", to: Routes.comment_show_path(@socket, :show, comment)) %>
-          </span>
-          <span>
-            <%= live_patch("Edit", to: Routes.comment_index_path(@socket, :edit, comment)) %>
-          </span>
-          <span>
-            <%= link("Delete",
-              to: "#",
-              phx_click: "delete",
-              phx_value_id: comment.id,
-              data: [confirm: "Are you sure?"]
-            ) %>
-          </span>
+          <span><%= live_redirect "Show", to: Routes.comment_show_path(@socket, :show, comment) %></span>
+          <span><%= live_patch "Edit", to: Routes.comment_index_path(@socket, :edit, comment) %></span>
+          <span><%= link "Delete", to: "#", phx_click: "delete", phx_value_id: comment.id, data: [confirm: "Are you sure?"] %></span>
         </td>
       </tr>
     <% end %>
   </tbody>
 </table>
 
-<span><%= live_patch("New Comment", to: Routes.comment_index_path(@socket, :new)) %></span>
+<span><%= live_patch "New Comment", to: Routes.comment_index_path(@socket, :new) %></span>

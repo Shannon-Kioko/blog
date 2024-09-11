@@ -1,8 +1,8 @@
 defmodule BloggyWeb.CommentLive.Index do
   use BloggyWeb, :live_view
 
-  alias Bloggy.Blog
-  alias Bloggy.Blog.Comment
+  alias Bloggy.Comments
+  alias Bloggy.Comments.Comment
 
   @impl true
   def mount(_params, _session, socket) do
@@ -17,7 +17,7 @@ defmodule BloggyWeb.CommentLive.Index do
   defp apply_action(socket, :edit, %{"id" => id}) do
     socket
     |> assign(:page_title, "Edit Comment")
-    |> assign(:comment, Blog.get_comment!(id))
+    |> assign(:comment, Comments.get_comment!(id))
   end
 
   defp apply_action(socket, :new, _params) do
@@ -34,13 +34,13 @@ defmodule BloggyWeb.CommentLive.Index do
 
   @impl true
   def handle_event("delete", %{"id" => id}, socket) do
-    comment = Blog.get_comment!(id)
-    {:ok, _} = Blog.delete_comment(comment)
+    comment = Comments.get_comment!(id)
+    {:ok, _} = Comments.delete_comment(comment)
 
     {:noreply, assign(socket, :comments, list_comments())}
   end
 
   defp list_comments do
-    Blog.list_comments()
+    Comments.list_comments()
   end
 end

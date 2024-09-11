@@ -75,7 +75,7 @@ defmodule Bloggy.AccountsTest do
 
       assert %{
                email: ["must have the @ sign and no spaces"],
-               password: ["should be at least 12 character(s)"]
+               password: ["should be at least 5 character(s)"]
              } = errors_on(changeset)
     end
 

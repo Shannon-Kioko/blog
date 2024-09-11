@@ -4,30 +4,22 @@ defmodule Bloggy.BlogFixtures do
   entities via the `Bloggy.Blog` context.
   """
 
+  import Bloggy.AccountsFixtures #  alias the fixtures module
   @doc """
   Generate a post.
   """
   def post_fixture(attrs \\ %{}) do
+    user = user_fixture()
     {:ok, post} =
       attrs
       |> Enum.into(%{
         description: "some description",
-        title: "some title"
+        title: "some title",
+        user_id: user.id
       })
       |> Bloggy.Blog.create_post()
 
     post
   end
 
-  @doc """
-  Generate a comment.
-  """
-  def comment_fixture(attrs \\ %{}) do
-    {:ok, comment} =
-      attrs
-      |> Enum.into(%{})
-      |> Bloggy.Blog.create_comment()
-
-    comment
-  end
 end

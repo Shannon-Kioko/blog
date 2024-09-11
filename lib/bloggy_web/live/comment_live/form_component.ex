@@ -1,11 +1,11 @@
 defmodule BloggyWeb.CommentLive.FormComponent do
   use BloggyWeb, :live_component
 
-  alias Bloggy.Blog
+  alias Bloggy.Comments
 
   @impl true
   def update(%{comment: comment} = assigns, socket) do
-    changeset = Blog.change_comment(comment)
+    changeset = Comments.change_comment(comment)
 
     {:ok,
      socket
@@ -17,7 +17,7 @@ defmodule BloggyWeb.CommentLive.FormComponent do
   def handle_event("validate", %{"comment" => comment_params}, socket) do
     changeset =
       socket.assigns.comment
-      |> Blog.change_comment(comment_params)
+      |> Comments.change_comment(comment_params)
       |> Map.put(:action, :validate)
 
     {:noreply, assign(socket, :changeset, changeset)}
@@ -28,7 +28,7 @@ defmodule BloggyWeb.CommentLive.FormComponent do
   end
 
   defp save_comment(socket, :edit, comment_params) do
-    case Blog.update_comment(socket.assigns.comment, comment_params) do
+    case Comments.update_comment(socket.assigns.comment, comment_params) do
       {:ok, _comment} ->
         {:noreply,
          socket
@@ -41,7 +41,7 @@ defmodule BloggyWeb.CommentLive.FormComponent do
   end
 
   defp save_comment(socket, :new, comment_params) do
-    case Blog.create_comment(comment_params) do
+    case Comments.create_comment(comment_params) do
       {:ok, _comment} ->
         {:noreply,
          socket

@@ -1,7 +1,7 @@
 defmodule BloggyWeb.CommentLive.Show do
   use BloggyWeb, :live_view
 
-  alias Bloggy.Blog
+  alias Bloggy.Comments
 
   @impl true
   def mount(_params, _session, socket) do
@@ -13,7 +13,7 @@ defmodule BloggyWeb.CommentLive.Show do
     {:noreply,
      socket
      |> assign(:page_title, page_title(socket.assigns.live_action))
-     |> assign(:comment, Blog.get_comment!(id))}
+     |> assign(:comment, Comments.get_comment!(id))}
   end
 
   defp page_title(:show), do: "Show Comment"

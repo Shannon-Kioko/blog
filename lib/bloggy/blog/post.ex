@@ -7,7 +7,7 @@ defmodule Bloggy.Blog.Post do
     field :title, :string
 
     belongs_to :user, Bloggy.Accounts.User
-    has_many :comments, Bloggy.Blog.Comment
+    has_many :comments, Bloggy.Comments.Comment
 
     timestamps()
   end

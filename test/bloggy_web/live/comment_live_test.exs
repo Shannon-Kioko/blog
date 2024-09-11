@@ -2,7 +2,7 @@ defmodule BloggyWeb.CommentLiveTest do
   use BloggyWeb.ConnCase
 
   import Phoenix.LiveViewTest
-  import Bloggy.BlogFixtures
+  import Bloggy.CommentsFixtures
 
   @create_attrs %{}
   @update_attrs %{}
