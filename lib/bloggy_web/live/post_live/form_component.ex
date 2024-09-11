@@ -44,6 +44,7 @@ defmodule BloggyWeb.PostLive.FormComponent do
     # post_params = Map.put(post_params, "user_id", socket.assigns.current_user.id)
 
     IO.inspect(post_params, label: "post params")
+
     case Blog.create_post(post_params) do
       {:ok, _post} ->
         {:noreply,
