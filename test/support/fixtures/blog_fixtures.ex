@@ -4,12 +4,15 @@ defmodule Bloggy.BlogFixtures do
   entities via the `Bloggy.Blog` context.
   """
 
-  import Bloggy.AccountsFixtures #  alias the fixtures module
+  #  alias the fixtures module
+  import Bloggy.AccountsFixtures
+
   @doc """
   Generate a post.
   """
   def post_fixture(attrs \\ %{}) do
     user = user_fixture()
+
     {:ok, post} =
       attrs
       |> Enum.into(%{
@@ -21,5 +24,4 @@ defmodule Bloggy.BlogFixtures do
 
     post
   end
-
 end
