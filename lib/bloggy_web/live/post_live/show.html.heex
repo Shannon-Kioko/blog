@@ -1,6 +1,9 @@
-<h1>Show Post</h1>
+  <span><%= live_redirect("Back", to: Routes.post_index_path(@socket, :index)) %></span>
+<h2 class="text-gradient"><%= @post.title %></h2>
 
-<%= if @live_action in [:edit] do %>
+<%!-- TODO: Add editing bit to profile page of edit post --%>
+<%!-- Live Component for Editing Post  --%>
+<%!-- <%= if @live_action in [:edit] do %>
   <.modal return_to={Routes.post_show_path(@socket, :show, @post)}>
     <.live_component
       module={BloggyWeb.PostLive.FormComponent}
@@ -11,22 +14,72 @@
       return_to={Routes.post_show_path(@socket, :show, @post)}
     />
   </.modal>
-<% end %>
+<% end %> --%>
 
-<ul>
-  <li>
-    <strong>Title:</strong>
-    <%= @post.title %>
-  </li>
 
-  <li>
-    <strong>Description:</strong>
-    <%= @post.description %>
-  </li>
-</ul>
+    <h3><%= @post.description %></h3>
+  <div>
+    <em><h4>Comments</h4></em>
+    <%= if @commentor != [] do %>
+      <%= for %{comment: comment, user: user} <- @commentor do %>
+        <div class="mb-2">
+          <small><%= user.first_name %></small> <small><%= user.last_name %></small>
+          <h6><%= comment.body %> </h6> 
+          <small><%= comment.inserted_at %></small>
+        </div>
+      <% end %>
+    <% else %>
+      <p>No comments yet. Be the first to comment!</p>
+    <% end %>
+  </div>
+  <div>
+    <%!-- <%= link("Add Comment", to: Routes.comments_index_path(@socket, :new, @post)) %> --%>
+    <%= link("Add Comment", to: "#", phx_click: "show_modal", class: "btn") %>
+    <%!-- <%= IO.inspect(@show_modal, label: "Commmmmmmmments modal") %> --%>
+    <%= if @show_modal do %>
+      
+      <%!-- <%= f = form_for @changeset, Routes.comment_index_path(@conn, :new), [phx_submit: "submit_comment"], fn f -> %> --%>
+      <%!-- <.modal return_to={Routes.post_show_path(@socket, :show, @post)}>
+        <h3>Add Comment</h3>
+        <%= f = form_for @changeset, "#", [phx_submit: "submit_comment"], fn f -> %>
+            <%= label f, :body %>
+            <%= textarea f, :body %>
 
-<span>
-  <%= live_patch("Edit", to: Routes.post_show_path(@socket, :edit, @post), class: "button") %>
-</span>
-|
-<span><%= live_redirect("Back", to: Routes.post_index_path(@socket, :index)) %></span>
+          <%= hidden_input f, :post_id, value: @post.id %>
+          <%= hidden_input f, :user_id, value: @current_user.id %>
+
+          <div>
+            <%= submit "Submit", class: "btn-submit" %>
+          </div>
+        <% end %>
+      </.modal>   --%>
+
+      <div id="comment-modal" class="modal">
+        <div class="modal-content">
+          <span phx-click="close_modal" class="close">&times;</span>
+
+          <h3>Add Comment</h3>
+          <%= f = form_for @changeset, Routes.comment_index_path(@socket, :new), [phx_submit: "submit_comment"], fn f -> %>
+            <div>
+              <%= label(f, :comment) %>
+              <%= textarea(f, :body) %>
+            </div>
+
+            <%= hidden_input(f, :post_id, value: @post.id) %>
+            <%= hidden_input(f, :user_id, value: @current_user.id) %>
+
+            <div>
+              <%= submit("Submit", class: "btn-submit") %>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
+</div>
+<div>
+  <span>
+    <%!-- <%= live_patch("Edit", to: Routes.post_show_path(@socket, :edit, @post), class: "button") %> --%>
+    <%= live_patch("Edit", to: Routes.post_show_path(@socket, :edit, @post)) %>
+  </span>
+  |
+</div>
