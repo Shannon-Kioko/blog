@@ -20,5 +20,6 @@ defmodule BloggyWeb.Gettext do
 
   See the [Gettext Docs](https://hexdocs.pm/gettext) for detailed usage.
   """
+  # use Gettext, backend: Bloggy.Gettext
   use Gettext, otp_app: :bloggy
 end
