@@ -9,8 +9,14 @@ defmodule BloggyWeb.PostLive.Index do
   def mount(_params, session, socket) do
     IO.inspect(session, label: "session")
     user = Accounts.get_user_by_session_token(session["user_token"])
+    user_posts = Blog.get_post_by_user(user.id)
     IO.inspect(user, label: "user")
-    {:ok, socket |> assign(:posts, list_posts()) |> assign(current_user: user)}
+
+    {:ok,
+     socket
+     |> assign(:posts, list_posts())
+     |> assign(current_user: user)
+     |> assign(user_posts: user_posts)}
   end
 
   @impl true
@@ -46,6 +52,5 @@ defmodule BloggyWeb.PostLive.Index do
 
   defp list_posts do
     Blog.list_posts()
-    IO.inspect(Blog.list_posts())
   end
 end

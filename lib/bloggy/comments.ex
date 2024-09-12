@@ -22,6 +22,45 @@ defmodule Bloggy.Comments do
   end
 
   @doc """
+  Returns the list of comments in a post.
+  """
+  def get_comments_by_post(post_id) do
+    # Repo.all(Comment)
+    Repo.all(from(c in Comment, where: c.post_id == ^post_id, preload: [:post]))
+  end
+
+  # TODO: Implement when dealing with profile page (posts commented on by a user)
+  @doc """
+  Returns the list of comments by a user.
+  """
+  def get_comments_by_user(user_id) do
+    # Repo.all(Comment)
+    Repo.all(from(c in Comment, where: c.user_id == ^user_id, preload: [:user]))
+  end
+
+  # TODO: Implement when dealing with profile page (who commented on your/a post)
+  @doc """
+  Returns the name of commentors in a post.
+  """
+  def get_commentor(user_id) do
+    # Repo.all(Comment)
+    Repo.all(from(c in Comment,
+    join: u in assoc(c, :user),
+    where: c.user_id == ^user_id,
+    select: %{first_name: u.first_name, last_name: u.last_name}
+    ))
+  end
+
+  def get_commentor_with_post(post_id) do
+    # Repo.all(Comment)
+    Repo.all(from(c in Comment,
+    join: u in assoc(c, :user),
+    where: c.post_id == ^post_id,
+    select: %{comment: c, user: u}
+    ))
+  end
+
+  @doc """
   Gets a single comment.
 
   Raises `Ecto.NoResultsError` if the Comment does not exist.
