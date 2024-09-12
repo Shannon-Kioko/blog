@@ -1,5 +1,3 @@
-<h1>Listing Posts</h1>
-
 <%!-- <%= IO.inspect(is_atom(@live_action), label: "Live Action indeed @live_action") %> --%>
 <%= if @live_action in [:new, :edit] do %>
   <.modal return_to={Routes.post_index_path(@socket, :index)}>
@@ -17,7 +15,7 @@
 <div class="em-gradient">
   <h2>Bloggy Posts</h2>
 </div>
-<table>
+<table class="border">
   <thead>
     <tr>
       <th>Title</th>
@@ -36,7 +34,8 @@
           <span>
             <%= live_redirect("Show", to: Routes.post_show_path(@socket, :show, post)) %>
           </span>
-          <span><%= live_patch("Edit", to: Routes.post_index_path(@socket, :edit, post)) %></span>
+          <%!-- TODO: Add editing bit to profile page of edit post --%>
+          <%!-- <span><%= live_patch("Edit", to: Routes.post_index_path(@socket, :edit, post)) %></span>
           <span>
             <%= link("Delete",
               to: "#",
@@ -44,7 +43,7 @@
               phx_value_id: post.id,
               data: [confirm: "Are you sure?"]
             ) %>
-          </span>
+          </span> --%>
         </td>
       </tr>
     <% end %>

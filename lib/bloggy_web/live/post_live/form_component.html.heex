@@ -27,7 +27,7 @@
     <%= textarea(f, :description, id: "trix-description") %>
     <%= error_tag(f, :description) %>
 
-    <%!-- <%= hidden_input(f, :user_id, value: @current_user.id) %> --%>
+    <%= hidden_input(f, :user_id, value: @current_user.id) %>
     <%!-- <trix-editor input="trix-editor" id="trix-description" class="trix-content" phx-target={@myself} phx-change="validate" phx-hook="Trix"></trix-editor> --%>
     <%!-- <trix-editor input="trix-description" id="trix-co"  phx-hook="Trix"></trix-editor> --%>
     <div>
