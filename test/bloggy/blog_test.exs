@@ -58,5 +58,4 @@ defmodule Bloggy.BlogTest do
       assert %Ecto.Changeset{} = Blog.change_post(post)
     end
   end
-
 end
