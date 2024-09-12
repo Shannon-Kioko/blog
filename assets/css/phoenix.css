@@ -40,6 +40,9 @@ pre{padding: 1em;}
   padding: 5px;
 }
 
+.mb-2{
+  margin-bottom: 2rem;
+}
 .text-gradient{
   background: #CFB42D;
   background: radial-gradient(ellipse farthest-side at center center, #CFB42D 0%, #2279CF 100%);
