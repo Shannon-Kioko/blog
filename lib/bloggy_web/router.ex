@@ -78,8 +78,8 @@ defmodule BloggyWeb.Router do
     get "/users/settings", UserSettingsController, :edit
     put "/users/settings", UserSettingsController, :update
     get "/users/settings/confirm_email/:token", UserSettingsController, :confirm_email
-    get "/users/:user_id/profile", MainPageController, :view
 
+    # live "/users/:user_id/profile", PostLive.MainPage, :view
     live "/posts", PostLive.Index, :index
     live "/posts/new", PostLive.Index, :new
     live "/posts/:id/edit", PostLive.Index, :edit
@@ -94,6 +94,14 @@ defmodule BloggyWeb.Router do
 
     live "/comments/:id", CommentLive.Show, :show
     live "/comments/:id/show/edit", CommentLive.Show, :edit
+
+    # Likes Liveview Routes
+    live "/likes", LikeLive.Index, :index
+    live "/likes/new", LikeLive.Index, :new
+    live "/likes/:id/edit", LikeLive.Index, :edit
+
+    live "/likes/:id", LikeLive.Show, :show
+    live "/likes/:id/show/edit", LikeLive.Show, :edit
   end
 
   scope "/", BloggyWeb do
