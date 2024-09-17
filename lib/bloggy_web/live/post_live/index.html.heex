@@ -12,6 +12,7 @@
     />
   </.modal>
 <% end %>
+<span><%= live_patch("New Post", to: Routes.post_index_path(@socket, :new)) %>
 <div class="em-gradient">
   <h2>Bloggy Posts</h2>
 </div>
@@ -50,5 +51,4 @@
   </tbody>
 </table>
 
-<span><%= live_patch("New Post", to: Routes.post_index_path(@socket, :new)) %>
   <%!-- <%= IO.inspect() %> --%></span>
