@@ -44,20 +44,27 @@ defmodule Bloggy.Comments do
   """
   def get_commentor(user_id) do
     # Repo.all(Comment)
-    Repo.all(from(c in Comment,
-    join: u in assoc(c, :user),
-    where: c.user_id == ^user_id,
-    select: %{first_name: u.first_name, last_name: u.last_name}
-    ))
+    Repo.all(
+      from(c in Comment,
+        join: u in assoc(c, :user),
+        where: c.user_id == ^user_id,
+        select: %{first_name: u.first_name, last_name: u.last_name}
+      )
+    )
   end
 
+  @doc """
+  Returns the name of commentors and comments in a post.
+  """
   def get_commentor_with_post(post_id) do
     # Repo.all(Comment)
-    Repo.all(from(c in Comment,
-    join: u in assoc(c, :user),
-    where: c.post_id == ^post_id,
-    select: %{comment: c, user: u}
-    ))
+    Repo.all(
+      from(c in Comment,
+        join: u in assoc(c, :user),
+        where: c.post_id == ^post_id,
+        select: %{comment: c, user: u}
+      )
+    )
   end
 
   @doc """

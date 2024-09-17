@@ -1,0 +1,39 @@
+<h1>Listing Likes</h1>
+
+<%= if @live_action in [:new, :edit] do %>
+  <.modal return_to={Routes.like_index_path(@socket, :index)}>
+    <.live_component
+      module={BloggyWeb.LikeLive.FormComponent}
+      id={@like.id || :new}
+      title={@page_title}
+      action={@live_action}
+      like={@like}
+      return_to={Routes.like_index_path(@socket, :index)}
+    />
+  </.modal>
+<% end %>
+
+<table>
+  <thead>
+    <tr>
+      <th>Count</th>
+
+      <th></th>
+    </tr>
+  </thead>
+  <tbody id="likes">
+    <%= for like <- @likes do %>
+      <tr id={"like-#{like.id}"}>
+        <td><%= like.count %></td>
+
+        <td>
+          <span><%= live_redirect "Show", to: Routes.like_show_path(@socket, :show, like) %></span>
+          <span><%= live_patch "Edit", to: Routes.like_index_path(@socket, :edit, like) %></span>
+          <span><%= link "Delete", to: "#", phx_click: "delete", phx_value_id: like.id, data: [confirm: "Are you sure?"] %></span>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<span><%= live_patch "New Like", to: Routes.like_index_path(@socket, :new) %></span>

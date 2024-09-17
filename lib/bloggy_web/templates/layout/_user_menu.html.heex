@@ -2,7 +2,7 @@
   <%= if @current_user do %>
     <li><%= @current_user.first_name %></li>
     <%!-- <li><%= link("My Profile", to: Routes.main_page_path(@conn, :view)) %></li> --%>
-    <%= live_redirect("Profile", to: Routes.main_page_path(@conn, :view, @current_user.id)) %>
+    <%!-- <%= live_redirect("Profile", to: Routes.main_page_path(@conn, :view, @current_user.id)) %> --%>
     <li><%= link("Settings", to: Routes.user_settings_path(@conn, :edit)) %></li>
     <li><%= link("Log out", to: Routes.user_session_path(@conn, :delete), method: :delete) %></li>
   <% else %>

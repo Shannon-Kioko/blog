@@ -1,0 +1,26 @@
+<h1>Show Like</h1>
+
+<%= if @live_action in [:edit] do %>
+  <.modal return_to={Routes.like_show_path(@socket, :show, @like)}>
+    <.live_component
+      module={BloggyWeb.LikeLive.FormComponent}
+      id={@like.id}
+      title={@page_title}
+      action={@live_action}
+      like={@like}
+      return_to={Routes.like_show_path(@socket, :show, @like)}
+    />
+  </.modal>
+<% end %>
+
+<ul>
+
+  <li>
+    <strong>Count:</strong>
+    <%= @like.count %>
+  </li>
+
+</ul>
+
+<span><%= live_patch "Edit", to: Routes.like_show_path(@socket, :edit, @like), class: "button" %></span> |
+<span><%= live_redirect "Back", to: Routes.like_index_path(@socket, :index) %></span>

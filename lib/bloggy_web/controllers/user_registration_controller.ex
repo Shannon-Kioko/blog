@@ -3,7 +3,6 @@ defmodule BloggyWeb.UserRegistrationController do
 
   alias Bloggy.Accounts
   alias Bloggy.Accounts.User
-  alias BloggyWeb.UserAuth
 
   def new(conn, _params) do
     changeset = Accounts.change_user_registration(%User{})
