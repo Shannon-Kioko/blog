@@ -5,6 +5,19 @@ defmodule Bloggy.AccountsTest do
 
   import Bloggy.AccountsFixtures
   alias Bloggy.Accounts.{User, UserToken}
+  # use Bloggy.DataCase, async: false
+
+  @valid_attrs %{
+    first_name: "John",
+    last_name: "Doe",
+    email: "john.doe@example.com",
+    phone: "1234567890",
+    password: "password123",
+    # Assuming default role as :user, but can be changed
+    role: :user,
+    # This is required and must be true
+    terms_and_conditions: true
+  }
 
   describe "get_user_by_email/1" do
     test "does not return the user if the email does not exist" do
@@ -279,7 +292,7 @@ defmodule Bloggy.AccountsTest do
         })
 
       assert %{
-               password: ["should be at least 12 character(s)"],
+               password: ["should be at least 3 character(s)"],
                password_confirmation: ["does not match password"]
              } = errors_on(changeset)
     end

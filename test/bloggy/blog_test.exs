@@ -7,8 +7,12 @@ defmodule Bloggy.BlogTest do
     alias Bloggy.Blog.Post
 
     import Bloggy.BlogFixtures
+    import Bloggy.AccountsFixtures
+    # use Bloggy.DataCase, async: false
 
-    @invalid_attrs %{description: nil, title: nil}
+    user = user_fixture()
+    @valid_attrs %{description: "some description", title: "some title", user_id: user.id}
+    @invalid_attrs %{description: nil, title: nil, user_id: nil}
 
     test "list_posts/0 returns all posts" do
       post = post_fixture()

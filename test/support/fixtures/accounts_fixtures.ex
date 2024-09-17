@@ -9,8 +9,13 @@ defmodule Bloggy.AccountsFixtures do
 
   def valid_user_attributes(attrs \\ %{}) do
     Enum.into(attrs, %{
+      first_name: "John",
+      last_name: "Doe",
       email: unique_user_email(),
-      password: valid_user_password()
+      password: valid_user_password(),
+      phone: "1234567890",
+      role: :user,
+      confirmed_at: ~N[2023-09-12 00:00:00]
     })
   end
 
