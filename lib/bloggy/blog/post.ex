@@ -5,6 +5,7 @@ defmodule Bloggy.Blog.Post do
   schema "posts" do
     field :description, :string
     field :title, :string
+    field :image, :string
 
     belongs_to :user, Bloggy.Accounts.User
     has_many :comments, Bloggy.Comments.Comment
@@ -15,7 +16,7 @@ defmodule Bloggy.Blog.Post do
   @doc false
   def changeset(post, attrs) do
     post
-    |> cast(attrs, [:title, :description, :user_id])
+    |> cast(attrs, [:title, :description, :user_id, :image])
     |> validate_required([:title, :description, :user_id])
   end
 end
