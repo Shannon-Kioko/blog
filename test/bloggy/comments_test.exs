@@ -3,12 +3,24 @@ defmodule Bloggy.CommentsTest do
 
   alias Bloggy.Comments
 
+  setup_all do
+    # Setup code that runs once before any tests
+    # For example, create some shared comments
+    {:ok}
+  end
+
   describe "comments" do
     alias Bloggy.Comments.Comment
 
     import Bloggy.CommentsFixtures
+    use Bloggy.DataCase, async: false
 
     @invalid_attrs %{}
+    @valid_attrs %{
+      body: "some comment",
+      post_id: Bloggy.BlogFixtures.post_fixture().id,
+      user_id: Bloggy.AccountsFixtures.user_fixture().id
+    }
 
     test "list_comments/0 returns all comments" do
       comment = comment_fixture()
