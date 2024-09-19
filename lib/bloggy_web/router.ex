@@ -95,13 +95,14 @@ defmodule BloggyWeb.Router do
     live "/comments/:id", CommentLive.Show, :show
     live "/comments/:id/show/edit", CommentLive.Show, :edit
 
-    # Likes Liveview Routes
-    live "/likes", LikeLive.Index, :index
-    live "/likes/new", LikeLive.Index, :new
-    live "/likes/:id/edit", LikeLive.Index, :edit
 
-    live "/likes/:id", LikeLive.Show, :show
-    live "/likes/:id/show/edit", LikeLive.Show, :edit
+    # Profile Routes
+    live "/profile", ProfileLive.Index, :index
+    live "/profile/new", ProfileLive.Index, :new
+    live "/profile/:id/edit", ProfileLive.Index, :edit
+
+    live "/profile/:id", ProfileLive.Show, :show
+    live "/profile/:id/show/edit", ProfileLive.Show, :edit
   end
 
   scope "/", BloggyWeb do

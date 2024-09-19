@@ -1,7 +1,17 @@
 <span><%= live_redirect("Back", to: Routes.post_index_path(@socket, :index)) %></span>
 <div>
   <h2 class="text-gradient"><%= @post.title %></h2>
+  <small><%= @post.inserted_at %></small>
+  <div>
+    <img
+      src={@post.image}
+      alt="post image"
+      style="width: 100px; height: 100px; object-fit: cover;"
+    />
+  </div>
   <h3><%= @post.description %></h3>
+
+  <hr />
 
   <div>
     <%= if @commentor != [] do %>
@@ -26,10 +36,6 @@
           ) %>
           <%= link("Edit", to: "#", phx_click: "edit_comment", phx_value_id: comment.id) %>
           <%= if @editing_comment_id == comment.id do %>
-            <%= IO.inspect(@editing_comment_id, label: "Editing Comment ID in 🥶🥶") %>
-            <%= IO.inspect(comment.id, label: "Comment ID 🥶🥶🥶") %>
-            <%!-- <% IO.inspect("Editing comment id #{@editing_comment_id} and comment.id #{comment.id}") %> --%>
-
             <div>
               <h3>Edit Comment</h3>
               <%= form_for @edit_comment_changeset, "#", [phx_submit: "submit_edit_comment"], fn f -> %>

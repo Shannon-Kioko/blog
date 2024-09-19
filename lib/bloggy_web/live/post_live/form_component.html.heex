@@ -28,15 +28,12 @@
     <%= error_tag(f, :description) %>
 
     <%= label(f, :image) %>
-    <%= live_file_input @uploads.image %>
+    <%= live_file_input(@uploads.image) %>
     <%= for entry <- @uploads.image.entries do %>
       <%= live_img_preview(entry, style: "max-width: 100px; max-height: 100px;") %>
-      <button
-        phx_click="remove-upload"
-        phx-value-ref={entry.ref}
-        aria-label="cancel"
-      >Remove</button>
-
+      <button phx_click="remove-upload" phx-value-ref={entry.ref} aria-label="cancel">
+        Remove
+      </button>
     <% end %>
 
     <%= hidden_input(f, :user_id, value: @current_user.id) %>

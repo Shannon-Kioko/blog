@@ -8,7 +8,7 @@ defmodule Bloggy.LikesTest do
 
     import Bloggy.LikesFixtures
 
-    @invalid_attrs %{count: nil}
+    @invalid_attrs %{}
 
     test "list_likes/0 returns all likes" do
       like = like_fixture()
@@ -21,10 +21,9 @@ defmodule Bloggy.LikesTest do
     end
 
     test "create_like/1 with valid data creates a like" do
-      valid_attrs = %{count: 42}
+      valid_attrs = %{}
 
       assert {:ok, %Like{} = like} = Likes.create_like(valid_attrs)
-      assert like.count == 42
     end
 
     test "create_like/1 with invalid data returns error changeset" do
@@ -33,10 +32,9 @@ defmodule Bloggy.LikesTest do
 
     test "update_like/2 with valid data updates the like" do
       like = like_fixture()
-      update_attrs = %{count: 43}
+      update_attrs = %{}
 
       assert {:ok, %Like{} = like} = Likes.update_like(like, update_attrs)
-      assert like.count == 43
     end
 
     test "update_like/2 with invalid data returns error changeset" do

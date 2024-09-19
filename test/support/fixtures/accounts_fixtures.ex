@@ -33,4 +33,16 @@ defmodule Bloggy.AccountsFixtures do
     [_, token | _] = String.split(captured_email.text_body, "[TOKEN]")
     token
   end
+
+  @doc """
+  Generate a profile.
+  """
+  def profile_fixture(attrs \\ %{}) do
+    {:ok, profile} =
+      attrs
+      |> Enum.into(%{})
+      |> Bloggy.Accounts.create_profile()
+
+    profile
+  end
 end

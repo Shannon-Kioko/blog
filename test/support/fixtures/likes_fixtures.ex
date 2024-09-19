@@ -10,9 +10,7 @@ defmodule Bloggy.LikesFixtures do
   def like_fixture(attrs \\ %{}) do
     {:ok, like} =
       attrs
-      |> Enum.into(%{
-        count: 42
-      })
+      |> Enum.into(%{})
       |> Bloggy.Likes.create_like()
 
     like

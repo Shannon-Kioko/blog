@@ -11,10 +11,9 @@ defmodule BloggyWeb.PostLive.Show do
     post = Blog.get_post!(post_id)
     changeset = Bloggy.Comments.change_comment(%Comment{})
     user = Accounts.get_user_by_session_token(session["user_token"])
-    # comments = Bloggy.Comments.get_comments_by_post(post_id)
     commentor = Bloggy.Comments.get_commentor_with_post(post_id)
 
-    IO.inspect(socket, label: "Socket")
+    # IO.inspect(socket, label: "Socket")
     # IO.inspect(commentor, label: "Mwenye Comment????")
     socket =
       socket
@@ -85,7 +84,6 @@ defmodule BloggyWeb.PostLive.Show do
   end
 
   def handle_event("submit_edit_comment", %{"comment" => comment_params}, socket) do
-
     # Fetching the changeset tied to the comment
     changeset = socket.assigns.edit_comment_changeset
 
@@ -95,9 +93,12 @@ defmodule BloggyWeb.PostLive.Show do
          socket
          |> put_flash(:info, "Comment updated successfully")
          |> assign(commentor: Bloggy.Comments.get_commentor_with_post(socket.assigns.post.id))
-         |> assign(edit_comment_changeset: Bloggy.Comments.change_comment(edited_comment), editing_comment_id: nil)}
-        #  |> push_redirect(to: Routes.post_show_path(socket, :show, socket.assigns.post.id))}
+         |> assign(
+           edit_comment_changeset: Bloggy.Comments.change_comment(edited_comment),
+           editing_comment_id: nil
+         )}
 
+      #  |> push_redirect(to: Routes.post_show_path(socket, :show, socket.assigns.post.id))}
 
       {:error, %Ecto.Changeset{} = changeset} ->
         {:noreply, assign(socket, edit_comment_changeset: changeset)}

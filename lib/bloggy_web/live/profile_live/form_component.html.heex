@@ -1,0 +1,47 @@
+<div>
+  <h2><%= @title %></h2>
+
+  <.form
+    let={f}
+    for={@changeset}
+    id="post-form"
+    phx-target={@myself}
+    phx-change="validate"
+    phx-submit="save"
+  >
+    <%= label(f, :title) %>
+    <%= text_input(f, :title) %>
+    <%= error_tag(f, :title) %>
+
+    <%!-- <textarea
+      field={:description}
+      id="trix-description"
+      type="hidden"
+      label="Description"
+      phx-hook="Trix"
+      phx-debounce="blur"
+    /> --%>
+
+    <%= label(f, :description) %>
+    <%!-- <%= textarea f, :description, id: "trix-description", hidden: true %> --%>
+    <%= textarea(f, :description, id: "trix-description") %>
+    <%= error_tag(f, :description) %>
+
+    <%= label(f, :image) %>
+    <%= live_file_input(@uploads.image) %>
+    <%= for entry <- @uploads.image.entries do %>
+      <%= live_img_preview(entry, style: "max-width: 100px; max-height: 100px;") %>
+      <button phx_click="remove-upload" phx-value-ref={entry.ref} aria-label="cancel">
+        Remove
+      </button>
+    <% end %>
+
+    <%= hidden_input(f, :user_id, value: @current_user.id) %>
+    <%!-- <trix-editor input="trix-editor" id="trix-description" class="trix-content" phx-target={@myself} phx-change="validate" phx-hook="Trix"></trix-editor> --%>
+    <%!-- <trix-editor input="trix-description" id="trix-co"  phx-hook="Trix"></trix-editor> --%>
+    <div>
+      <%= submit("Save", phx_disable_with: "Saving...") %>
+    </div>
+  </.form>
+  <%!-- IO.puts("FormComponent Rendered") --%>
+</div>
