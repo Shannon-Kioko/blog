@@ -17,6 +17,6 @@ defmodule Bloggy.Blog.Post do
   def changeset(post, attrs) do
     post
     |> cast(attrs, [:title, :description, :user_id, :image])
-    |> validate_required([:title, :description, :user_id])
+    |> validate_required([:title, :description, :user_id, :image])
   end
 end
