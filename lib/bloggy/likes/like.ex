@@ -3,9 +3,8 @@ defmodule Bloggy.Likes.Like do
   import Ecto.Changeset
 
   schema "likes" do
-    field :count, :integer
-    belongs_to :post, Bloggy.Blog.Post
     belongs_to :user, Bloggy.Accounts.User
+    belongs_to :post, Bloggy.Blog.Post
 
     timestamps()
   end
@@ -13,7 +12,7 @@ defmodule Bloggy.Likes.Like do
   @doc false
   def changeset(like, attrs) do
     like
-    |> cast(attrs, [:count])
-    |> validate_required([:count])
+    |> cast(attrs, [:user_id, :post_id])
+    |> validate_required([:user_id, :post_id])
   end
 end
