@@ -90,6 +90,13 @@ defmodule Bloggy.Likes do
   end
 
   @doc """
+  Gets like by the user of post
+  """
+  def get_like_by_user_post(user_id, post_id) do
+    Repo.all(from(l in Like, where: l.user_id == ^user_id and l.post_id == ^post_id))
+  end
+
+  @doc """
   Returns an `%Ecto.Changeset{}` for tracking like changes.
 
   ## Examples
