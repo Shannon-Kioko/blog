@@ -6,10 +6,22 @@
     <img
       src={@post.image}
       alt="post image"
-      style="width: 100px; height: 100px; object-fit: cover;"
+      style="width: 500px; height: 200px; object-fit: cover;"
     />
   </div>
-  <h3><%= @post.description %></h3>
+  <h5><%= @post.description %></h5>
+  <%!-- Likes Button --%>
+  <h6><%= @like_count %></h6>
+  <%= if @show_like == false do %>
+    <Lucideicons.heart class="h-4 w-4" phx-click="show_like" phx-value-id={@post.id} aria-hidden />
+  <% else %>
+    <Lucideicons.heart
+      class="h-4 w-4 luci-icon"
+      phx-click="show_like"
+      phx-value-id={@post.id}
+      aria-hidden
+    />
+  <% end %>
 
   <hr />
 

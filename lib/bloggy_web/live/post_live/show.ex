@@ -5,32 +5,42 @@ defmodule BloggyWeb.PostLive.Show do
   # alias Bloggy.Comments
   alias Bloggy.Comments.Comment
   alias Bloggy.Accounts
+  alias Bloggy.Likes
 
   @impl true
   def mount(%{"id" => post_id}, session, socket) do
-    post = Blog.get_post!(post_id)
+    # post = Blog.get_post!(post_id)
     changeset = Bloggy.Comments.change_comment(%Comment{})
     user = Accounts.get_user_by_session_token(session["user_token"])
     commentor = Bloggy.Comments.get_commentor_with_post(post_id)
+    like_count = Likes.count_likes(post_id)
+    liked_post = Likes.get_like_by_user_post(user.id, post_id)
 
     # IO.inspect(socket, label: "Socket")
     # IO.inspect(commentor, label: "Mwenye Comment????")
     socket =
       socket
       |> assign(:page_title, page_title(socket.assigns.live_action))
-      |> assign(:post, post)
+      # |> assign(:post, post)
       |> assign(:changeset, changeset)
       |> assign(:edit_comment_changeset, Bloggy.Comments.change_comment(%Comment{}))
       |> assign(:current_user, user)
       |> assign(:show_modal, false)
       |> assign(:commentor, commentor)
       |> assign(:editing_comment_id, nil)
+      |> assign(:show_like, false)
+      |> assign(:like_count, like_count)
+      |> assign(:liked_post, liked_post)
 
     {:ok, socket}
   end
 
   @impl true
   def handle_params(%{"id" => id}, _, socket) do
+    IO.inspect(id, label: "ID")
+    like_count = Bloggy.Likes.count_likes(id)
+    IO.inspect(like_count, label: "Like Count")
+
     {:noreply,
      socket
      |> assign(:page_title, page_title(socket.assigns.live_action))
@@ -103,5 +113,34 @@ defmodule BloggyWeb.PostLive.Show do
       {:error, %Ecto.Changeset{} = changeset} ->
         {:noreply, assign(socket, edit_comment_changeset: changeset)}
     end
+  end
+
+  def handle_event("show_like", %{"id" => post_id}, socket) do
+    user_id = socket.assigns.current_user.id
+
+    like_count = Bloggy.Likes.count_likes(post_id)
+    # like_count = String.to_integer(like_count)
+
+    liked_post = Bloggy.Likes.get_like_by_user_post(user_id, post_id)
+    IO.inspect(liked_post, label: "Llllllllllliked Post")
+    IO.inspect(like_count, label: "LiKKKKke Count")
+
+    case liked_post do
+      nil ->
+        IO.inspect(like_count, label: "☑️☑️☑️☑️☑️☑️")
+        Likes.create_like(%{user_id: user_id, post_id: post_id})
+        {:noreply, assign(socket, show_like: true, like_count: like_count + 1)}
+
+      %Bloggy.Likes.Like{} = like_record ->
+        IO.inspect(like_count, label: "❌❌❌❌❌")
+        Likes.delete_like(like_record)
+
+        {:noreply,
+         assign(socket, show_like: false, like_record: like_record, like_count: like_count - 1)}
+    end
+  end
+
+  def get_likes(post_id) do
+    Bloggy.Likes.count_likes(post_id)
   end
 end
