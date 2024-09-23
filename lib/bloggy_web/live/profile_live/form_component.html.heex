@@ -22,12 +22,25 @@
       phx-debounce="blur"
     /> --%>
 
-    <%= label(f, :description) %>
-    <%!-- <%= textarea f, :description, id: "trix-description", hidden: true %> --%>
-    <%= textarea(f, :description, id: "trix-description") %>
-    <%= error_tag(f, :description) %>
+    <div>
+      <%= label(f, :description, gettext("Description")) %>
+      <%= hidden_input(f, :body, phx_hook: "TrixEditor") %>
+      <div id="richtext" phx-update="ignore">
+        <trix-editor input={input_id(f, :body)} class="trix-content"></trix-editor>
+      </div>
+      <%!-- <%= textarea f, :description, id: "trix-description", hidden: true %> --%>
+      <%!-- <%= textarea(f, :description, id: "trix-description") %> --%>
+      <%= error_tag(f, :description) %>
+    </div>
 
     <%= label(f, :image) %>
+    <%= if @image_preview do %>
+      <img
+        src={@image_preview}
+        alt="post image"
+        style="width: 100px; height: 100px; object-fit: cover;"
+      />
+    <% end %>
     <%= live_file_input(@uploads.image) %>
     <%= for entry <- @uploads.image.entries do %>
       <%= live_img_preview(entry, style: "max-width: 100px; max-height: 100px;") %>

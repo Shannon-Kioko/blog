@@ -7,7 +7,7 @@ defmodule BloggyWeb.ProfileLive.Index do
   # alias Bloggy.Accounts.Profile
 
   @impl true
-  def mount(params, session, socket) do
+  def mount(_params, session, socket) do
     user = Accounts.get_user_by_session_token(session["user_token"])
     user_posts = if user, do: Blog.get_post_by_user(user.id), else: []
 
@@ -40,7 +40,9 @@ defmodule BloggyWeb.ProfileLive.Index do
     IO.inspect(id, label: "Editing Post Triggereer")
     post = Blog.get_post!(id)
     changeset = Blog.change_post(post)
-    {:noreply, assign(socket, editing_post_id: post.id, edit_post_changeset: changeset)}
+
+    {:noreply,
+     assign(socket, editing_post_id: post.id, post: post, editing_post_changeset: changeset)}
   end
 
   def handle_event("submit_edit_post", %{"post" => post_params}, socket) do

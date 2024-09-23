@@ -21,11 +21,21 @@
       phx-hook="Trix"
       phx-debounce="blur"
     /> --%>
+    <div>
+      <%= label(f, :description, gettext("Description")) %>
+      <%= hidden_input(f, :description, phx_hook: "TrixEditor") %>
+      <div id="richtext" phx-update="ignore">
+        <trix-editor input={input_id(f, :description)} class="trix-content"></trix-editor>
+      </div>
+      <%!-- <%= textarea f, :description, id: "trix-description", hidden: true %> --%>
+      <%!-- <%= textarea(f, :description, id: "trix-description") %> --%>
+      <%= error_tag(f, :description) %>
+    </div>
 
-    <%= label(f, :description) %>
+    <%!-- <%= label(f, :description) %> --%>
     <%!-- <%= textarea f, :description, id: "trix-description", hidden: true %> --%>
-    <%= textarea(f, :description, id: "trix-description") %>
-    <%= error_tag(f, :description) %>
+    <%!-- <%= textarea(f, :description, id: "trix-description") %>
+    <%= error_tag(f, :description) %> --%>
 
     <%= label(f, :image) %>
     <%= live_file_input(@uploads.image) %>

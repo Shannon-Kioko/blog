@@ -37,14 +37,13 @@ defmodule BloggyWeb.PostLive.Show do
 
   @impl true
   def handle_params(%{"id" => id}, _, socket) do
-    IO.inspect(id, label: "ID")
     like_count = Bloggy.Likes.count_likes(id)
-    IO.inspect(like_count, label: "Like Count")
 
     {:noreply,
      socket
      |> assign(:page_title, page_title(socket.assigns.live_action))
-     |> assign(:post, Blog.get_post!(id))}
+     |> assign(:post, Blog.get_post!(id))
+     |> assign(:like_count, like_count)}
   end
 
   defp page_title(:show), do: "Show Post"
@@ -73,12 +72,9 @@ defmodule BloggyWeb.PostLive.Show do
   end
 
   def handle_event("edit_comment", %{"id" => comment_id}, socket) do
-    IO.puts("Edit comment event triggered")
-    IO.inspect(comment_id, label: "Received comment ID")
     comment_id = String.to_integer(comment_id)
     comment = Bloggy.Comments.get_comment!(comment_id)
     changeset = Bloggy.Comments.change_comment(comment)
-    IO.inspect(comment_id, label: "Updateeee Comment ID")
 
     {:noreply, assign(socket, edit_comment_changeset: changeset, editing_comment_id: comment_id)}
   end

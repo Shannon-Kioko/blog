@@ -12,6 +12,7 @@ defmodule BloggyWeb.ProfileLive.FormComponent do
      |> assign(assigns)
      |> assign(:changeset, changeset)
      |> assign(uploaded_files: [])
+     |> assign(:image_preview, post.image)
      |> allow_upload(:image, accept: ~w(.jpg .png .jpeg), max_entries: 1)}
   end
 
@@ -25,12 +26,26 @@ defmodule BloggyWeb.ProfileLive.FormComponent do
     {:noreply, assign(socket, :changeset, changeset)}
   end
 
+  # def handle_event("remove-upload", %{"ref" => ref}, socket) do
+  #   {:noreply, cancel_upload(socket, :image, ref)}
+  # end
+
+  @impl true
   def handle_event("remove-upload", %{"ref" => ref}, socket) do
-    {:noreply, cancel_upload(socket, :image, ref)}
+    {:noreply, update(socket, :uploads, &remove_upload(&1, ref))}
   end
 
   def handle_event("save", %{"post" => post_params}, socket) do
     save_post(socket, socket.assigns.action, post_params)
+  end
+
+  defp remove_upload(uploads, ref) do
+    %{
+      uploads
+      | image: %{
+          entries: Enum.reject(uploads.image.entries, fn entry -> entry.ref == ref end)
+        }
+    }
   end
 
   defp save_post(socket, :edit, post_params) do

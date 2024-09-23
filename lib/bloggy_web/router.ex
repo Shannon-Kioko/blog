@@ -95,7 +95,6 @@ defmodule BloggyWeb.Router do
     live "/comments/:id", CommentLive.Show, :show
     live "/comments/:id/show/edit", CommentLive.Show, :edit
 
-
     # Profile Routes
     live "/profile", ProfileLive.Index, :index
     live "/profile/new", ProfileLive.Index, :new

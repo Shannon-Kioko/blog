@@ -14,7 +14,7 @@ defmodule BloggyWeb.Gettext do
       ngettext("Here is the string to translate",
                "Here are the strings to translate",
                3)
-
+  z
       # Domain-based translation
       dgettext("errors", "Here is the error message to translate")
 

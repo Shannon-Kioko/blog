@@ -1,5 +1,4 @@
-<%!-- <%= IO.inspect(is_atom(@live_action), label: "Live Action indeed @live_action") %> --%>
-<%!-- <%= if @live_action in [:new, :edit] do %>
+<%= if @live_action in [:new, :edit] do %>
   <.modal return_to={Routes.post_index_path(@socket, :index)}>
     <.live_component
       module={BloggyWeb.PostLive.FormComponent}
@@ -11,42 +10,72 @@
       return_to={Routes.post_index_path(@socket, :index)}
     />
   </.modal>
-<% end %> --%>
-<span>
-  <%= live_patch("New Post", to: Routes.post_index_path(@socket, :new)) %>
-  <div class="em-gradient">
-    <h2>Bloggy Posts</h2>
+<% end %>
+
+<main>
+  <div class="flex justify-center ">
+    <h2 class="text-xl font-title shadow-sm text font-bold uppercase mb-6 text-yellow-900 ">
+      Bloggy Posts
+    </h2>
   </div>
-  <%!-- TODO: Add editing bit to profile page of edit post --%>
-  <%!-- <span><%= live_patch("Edit", to: Routes.post_index_path(@socket, :edit, post)) %></span>
-          <span>
-            <%= link("Delete",
-              to: "#",
-              phx_click: "delete",
-              phx_value_id: post.id,
-              data: [confirm: "Are you sure?"]
-            ) %>
-          </span> --%>
 
-  <%= for post <- @posts do %>
-    <div id={"post-#{post.id}"}>
-      <h2 class="text-gradient"><%= post.title %></h2>
-      <small><%= post.inserted_at %></small>
-      <div>
-        <img
-          src={post.image}
-          alt="post image"
-          style="width: 100px; height: 100px; object-fit: cover;"
-        />
+  <div class="flex justify-center "> 
+    <span class="rounded-lg">
+      <%= live_patch("New Post", to: Routes.post_index_path(@socket, :new)) %>
+    </span>
+
+    <!-- Posts Wrapper -->
+    <div class="grid  lg:grid-cols-3 w-[90%]  gap-8">
+    <%= for post <- @posts do %>
+      <!-- Post -->
+      <div class="flex justify-center">
+
+        <div class="shadow p-8 rounded relative">
+          <div id={"post-#{post.id}"}>
+            <h2 class="text-gradient"><%= post.title %></h2>
+            <small>
+              <time datetime={post.inserted_at} id={"Time-#{post.id}"} phx-hook="LocalTime"></time>
+            </small>
+            <div>
+              <img
+                src={post.image}
+                alt="post image"
+                style="width: 500px; height: 200px; object-fit: cover;"
+              />
+            </div>
+            <div class="pb-7">
+              <h5><%= raw(post.description) %></h5>
+            </div>
+
+  
+            <%!--  TODO: Likes Button --%>
+            <%!-- <h6><%= @like_count %></h6>
+            <%= if @show_like do %>
+              <Lucideicons.heart
+                class="h-4 w-4"
+                phx-click="show_like"
+                phx-value-post-id={post.id}
+                aria-hidden
+              />
+            <% else %>
+              <Lucideicons.heart
+                class="h-4 w-4 luci-icon"
+                phx-click="show_like"
+                phx-value-post-id={post.id}
+                aria-hidden
+              />
+            <% end %> --%>
+            <div class="rounded-full py-2 px-2 uppercase text-xs font-semibold cursor-pointer tracking-tighter bg-slate-400 absolute bottom-3 ">
+              <%= live_redirect("Show", to: Routes.post_show_path(@socket, :show, post)) %>
+            </div>
+          </div>
+        </div>
+        <hr />
       </div>
-      <h3><%= post.description %></h3>
-    </div>
-    <div>
-      <%= live_redirect("Show", to: Routes.post_show_path(@socket, :show, post)) %>
+      
+      <% end %>
     </div>
 
-    <hr />
-  <% end %>
-
-  <%!-- <%= IO.inspect() %> --%>
-</span>
+    <%!-- <%= IO.inspect() %> --%>
+  </div>
+</main>

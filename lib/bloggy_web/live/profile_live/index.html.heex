@@ -6,7 +6,7 @@
 </div>
 
 <%= if @live_action in [:new, :edit] do %>
-  <.modal return_to={Routes.post_index_path(@socket, :new)}>
+  <.modal return_to={Routes.profile_index_path(@socket, :new)}>
     <.live_component
       module={BloggyWeb.PostLive.FormComponent}
       id={@post.id || :new}
@@ -19,9 +19,6 @@
   </.modal>
 <% end %>
 <%= live_patch("New Post", to: Routes.post_index_path(@socket, :new)) %>
-<%!-- <span><%= link("New Post", to: "#", phx_click: "new_post") %></span> --%>
-
-<%!-- <%= if @show_new_post_modal do %> --%>
 
 <%!-- TODO: Posts lists --%>
 <%= if @user_posts do %>
@@ -35,56 +32,14 @@
           style="width: 500px; height: 200px; object-fit: cover;"
         />
       <% end %>
-      <h5><%= post.description %></h5>
-      <%!-- <span><%= link "Edit", to: Routes.post_index_path(@socket, :edit, post) %></span> --%>
-      <div><%= link("Edit", to: "#", phx_click: "edit", phx_value_id: post.id) %></div>
-
-      <%= if @editing_post_id == post.id do %>
-        <div>
-          <h3>Edit Post</h3>
-          <%= form_for @edit_post_changeset, "#", [phx_submit: "submit_edit_post"], fn f -> %>
-            <div>
-              <%= label(f, :title, "Title") %>
-              <%= text_input(f, :title) %>
-              <%= error_tag(f, :title) %>
-            </div>
-            <div>
-              <%= label(f, :description, "Description") %>
-              <%= textarea(f, :description) %>
-              <%= error_tag(f, :description) %>
-            </div>
-            <div>
-              <%= live_file_input(@uploads.image) %>
-              <%= for entry <- @uploads.image.entries do %>
-                <%= live_img_preview(entry, style: "max-width: 100px; max-height: 100px;") %>
-                <button phx_click="remove-upload" phx-value-ref={entry.ref} aria-label="cancel">
-                  Remove
-                </button>
-              <% end %>
-            </div>
-
-            <%!-- <div>
-              <%= label(f, :image) %>
-              <%= live_file_input(@uploads.image) %>
-              <%= for entry <- @uploads.image.entries do %>
-                <%= live_img_preview(entry, style: "max-width: 100px; max-height: 100px;") %>
-                <button phx_click="remove-upload" phx-value-ref={entry.ref} aria-label="cancel">
-                  Remove
-                </button>
-            </div> --%>
-            <div>
-              <%= submit("Save") %>
-            </div>
-          <% end %>
-        </div>
-      <% end %>
-
+      <h4><%= raw(post.description) %></h4>
+      <span><%= live_patch("Edit", to: Routes.post_index_path(@socket, :edit, post)) %></span>
       <span>
         <%= link("Delete",
           to: "#",
           phx_click: "delete",
           phx_value_id: post.id,
-          data: [confirm: "Are you surrre?"]
+          data: [confirm: "Are you sure?"]
         ) %>
       </span>
     </div>
@@ -94,26 +49,3 @@
 <% else %>
   <p>No posts yet. <%= link("Create one", to: Routes.post_index_path(@conn, :new)) %></p>
 <% end %>
-
-<%!-- <table>
-  <thead>
-    <tr>
-
-      <th></th>
-    </tr>
-  </thead>
-  <tbody id="profile">
-    <%= for profile <- @profile_collection do %>
-      <tr id={"profile-#{profile.id}"}>
-
-        <td>
-          <span><%= live_redirect "Show", to: Routes.profile_show_path(@socket, :show, profile) %></span>
-          <span><%= live_patch "Edit", to: Routes.profile_index_path(@socket, :edit, profile) %></span>
-          <span><%= link "Delete", to: "#", phx_click: "delete", phx_value_id: profile.id, data: [confirm: "Are you sure?"] %></span>
-        </td>
-      </tr>
-    <% end %>
-  </tbody>
-</table> --%>
-
-<%!-- <span><%= live_patch("New Profile", to: Routes.profile_index_path(@socket, :new)) %></span> --%>
