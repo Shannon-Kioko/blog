@@ -93,7 +93,23 @@ defmodule Bloggy.Likes do
   Gets like by the user of post
   """
   def get_like_by_user_post(user_id, post_id) do
-    Repo.all(from(l in Like, where: l.user_id == ^user_id and l.post_id == ^post_id))
+    Repo.one(from(l in Like, where: l.user_id == ^user_id and l.post_id == ^post_id))
+  end
+
+  # @doc """
+  # Get if like by user
+  # """
+  # def get_post_liked_by_user(user_id) do
+  #   Repo.all(from(l in Like,
+  #   join:
+  #   where: l.user_id == ^user_id))
+  # end
+  # def get_liked
+  @doc """
+  Returns number of likes in a post
+  """
+  def count_likes(post_id) do
+    Repo.one(from(l in Like, where: l.post_id == ^post_id, select: count(l.id)))
   end
 
   @doc """

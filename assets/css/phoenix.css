@@ -25,13 +25,6 @@ pre{padding: 1em;}
   width: 100%
 }
 
-.em-gradient {
-  background: linear-gradient(90deg, #ff8a00, #e52e71);
-  color: white;
-  padding: 1rem;
-  text-align: center;
-}
-
 .border {
   border-image: linear-gradient(to right, #3acfd5 0%, #3a4ed5 100%) 1;
   border-radius: 5px; /* this doesn't work */
@@ -43,6 +36,7 @@ pre{padding: 1em;}
 .mb-2{
   margin-bottom: 2rem;
 }
+
 .text-gradient{
   background: #CFB42D;
   background: radial-gradient(ellipse farthest-side at center center, #CFB42D 0%, #2279CF 100%);

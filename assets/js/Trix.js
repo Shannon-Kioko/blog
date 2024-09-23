@@ -11,11 +11,19 @@ export default {
        // Handles behavior when inserting a file
         element.editor.element.addEventListener("trix-attachment-add", function (event) {
             if (event.attachment.file) uploadFileAttachment(event.attachment)
-        })
+        });
 
       // Handle behavior when deleting a file
         element.editor.element.addEventListener("trix-attachment-remove", function (event) {
             removeFileAttachment(event.attachment.attachment.previewURL)
-        })
-    },
+        });
+
+        element.editor.element.addEventListener("trix-initialize", () => {
+            element.editor.element.focus();
+        });
+
+        this.handleEvent("updateContent", (data) => {
+            element.editor.loadHTML(data.content || "");
+        });
+    }
 };

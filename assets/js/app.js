@@ -33,6 +33,18 @@ let csrfToken = document.querySelector("meta[name='csrf-token']").getAttribute("
 
 // Define hooks
 let Hooks = { Trix };
+
+Hooks.LocalTime = {
+  mounted() {
+    this.updated();
+  },
+  updated() {
+    const el = this.el;
+    const date = new Date(el.dateTime);
+    this.el.textContent = `${date.toLocaleString()} ${Intl.DateTimeFormat().resolvedOptions().timeZone}`;
+  },
+};
+
 Hooks.Modal = {
   mounted() {
     this.el.addEventListener("click", e => {

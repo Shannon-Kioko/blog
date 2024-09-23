@@ -38,16 +38,7 @@ defmodule Bloggy.Blog do
   """
   def get_post!(id), do: Repo.get!(Post, id)
 
-  def get_post_by_user(user_id) do
-    Repo.all(
-      from(p in Post,
-        where: p.user_id == ^user_id,
-        order_by: [desc: p.inserted_at],
-        preload: [:user]
-      )
-    )
-  end
-
+  @spec create_post() :: any()
   @doc """
   Creates a post.
 
@@ -111,5 +102,28 @@ defmodule Bloggy.Blog do
   """
   def change_post(%Post{} = post, attrs \\ %{}) do
     Post.changeset(post, attrs)
+  end
+
+  def get_post_by_user(user_id) do
+    Repo.all(
+      from(p in Post,
+        where: p.user_id == ^user_id,
+        order_by: [desc: p.inserted_at],
+        preload: [:user]
+      )
+    )
+  end
+
+  @doc """
+  Gett post with the user
+  """
+  def get_post_with_user(post_id) do
+    Repo.all(
+      from(p in Post,
+        join: u in assoc(p, :user),
+        where: p.id == ^post_id,
+        select: %{user: u, post: p}
+      )
+    )
   end
 end

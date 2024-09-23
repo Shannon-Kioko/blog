@@ -1,5 +1,19 @@
 {
   "dependencies": {
-    "trix": "^2.1.5"
-  }
+    "trix": "^2.1.5",
+    "tailwindcss": "^3.4.12"
+  },
+  "name": "bloggy",
+  "version": "1.0.0",
+  "description": "Blog using Poenix LiveView",
+  "main": "tailwind.config.js",
+  "directories": {
+    "lib": "lib",
+    "test": "test"
+  },
+  "scripts": {
+    "build-css": "npx tailwindcss -i assets/css/input.css -o assets/css/app.css --watch"
+  },
+  "author": "",
+  "license": "ISC"
 }
