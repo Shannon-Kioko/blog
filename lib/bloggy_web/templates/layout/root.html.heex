@@ -15,19 +15,21 @@
     >
     </script>
   </head>
-  <body class="bg-slate-100 m-4">
-    <header class="bg-gradient-to-b from-cyan-400 rounded overflow-auto">
-      <section class="container">
-        <nav class="">
-          <%!-- <ul>
+  <body class="bg-white ">
+    <div class="rounded-b-sm shadow-md bg-gradient-to-b from-purr to-sky-300">
+      <header class="">
+        <section class="">
+          <nav class="">
+            <%!-- <ul>
             <%= if function_exported?(Routes, :live_dashboard_path, 2) do %>
               <li><%= link("LiveDashboard", to: Routes.live_dashboard_path(@conn, :home)) %></li>
             <% end %>
           </ul> --%>
-          <%= render("_user_menu.html", assigns) %>
-        </nav>
-      </section>
-    </header>
+            <%= render("_user_menu.html", assigns) %>
+          </nav>
+        </section>
+      </header>
+    </div>
     <%= @inner_content %>
   </body>
 </html>

@@ -1,20 +1,26 @@
 <%!-- Nav Container --%>
-<div class="p-10 ">
-  <nav class="p-10">
-    <ul class="flex justify-between font-title">
+<div class="md:p-10">
+  <nav class="p-4">
+    <ul class="md:flex md:justify-between font-title ">
       <%= if @current_user do %>
-        <li class="text-lime-700 text-xl"><%= @current_user.first_name %></li>
+        <li class="text-white  text-md md:text-xl"><%= @current_user.first_name %></li>
         <%!-- <li><%= link("My Profile", to: Routes.main_page_path(@conn, :view)) %></li> --%>
-        <li>
+        <li class="md:text-md text-sm">
           <%= live_redirect("My Posts", to: Routes.profile_index_path(@conn, :index)) %>
         </li>
-        <li><%= link("Settings", to: Routes.user_settings_path(@conn, :edit)) %></li>
-        <li class="pl-11">
+        <li class="md:text-md text-sm">
+          <%= link("Settings", to: Routes.user_settings_path(@conn, :edit)) %>
+        </li>
+        <li class="md:text-md text-sm">
           <%= link("Log out", to: Routes.user_session_path(@conn, :delete), method: :delete) %>
         </li>
       <% else %>
-        <li><%= link("Register", to: Routes.user_registration_path(@conn, :new)) %></li>
-        <li><%= link("Log in", to: Routes.user_session_path(@conn, :new)) %></li>
+        <li class="md:text-md text-sm">
+          <%= link("Register", to: Routes.user_registration_path(@conn, :new)) %>
+        </li>
+        <li class="md:text-md text-sm">
+          <%= link("Log in", to: Routes.user_session_path(@conn, :new)) %>
+        </li>
       <% end %>
     </ul>
   </nav>

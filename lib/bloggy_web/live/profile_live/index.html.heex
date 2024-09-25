@@ -21,9 +21,12 @@
 <%= live_patch("New Post", to: Routes.post_index_path(@socket, :new)) %>
 
 <%!-- TODO: Posts lists --%>
+<%!-- Posts Wrapper --%>
+<div class="">
 <%= if @user_posts do %>
   <%= for post <- @user_posts do %>
-    <div class="mb-2">
+    <%!-- Card --%>
+    <div class="mb-2 card">
       <h2 class="text-gradient"><%= post.title %></h2>
       <%= if post.image do %>
         <img
@@ -49,3 +52,4 @@
 <% else %>
   <p>No posts yet. <%= link("Create one", to: Routes.post_index_path(@conn, :new)) %></p>
 <% end %>
+</div>
