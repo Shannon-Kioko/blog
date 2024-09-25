@@ -8,7 +8,11 @@ module.exports = {
     },
     extend: {
       colors: {
-        skyie: '#73ABDE'
+        skyie: '#73ABDE',
+        purr: '#5d69f2',
+        topper: '#62a2f3',
+        secondary: '#02182B',
+        tertiary: '#DDFFF7'
       }
     },
   },

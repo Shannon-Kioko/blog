@@ -17,12 +17,15 @@ defmodule BloggyWeb.PostLive.Index do
     {
       :ok,
       socket
-      |> assign(:posts, list_posts())
+      # |> assign(:posts, list_posts())
+      |> assign(:posts, Blog.list_posts_with_offset(0))
       |> assign(current_user: user)
       |> assign(:page_title, "#{user.first_name} Posts")
       |> assign(:show_like, false)
       |> assign(post_id: nil)
       |> assign(like_count: 0)
+      |> assign(page: 0)
+
       #  |> assign(:post, nil)
       #  |> assign(:poster, poster)
       #  |> assign(user_posts: user_posts)
@@ -68,6 +71,17 @@ defmodule BloggyWeb.PostLive.Index do
     socket
     |> assign(:page_title, "Listing Posts")
     |> assign(:post, nil)
+  end
+
+  @impl true
+  def handle_event("load-more", _, socket) do
+    %{
+      page: page, posts: posts
+    } = socket.assigns
+
+    next_page = page + 1
+
+    {:noreply, assign(socket, posts: posts ++ Blog.list_posts_with_offset(next_page), page: next_page)}
   end
 
   @impl true

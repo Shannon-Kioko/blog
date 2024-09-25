@@ -34,14 +34,51 @@ let csrfToken = document.querySelector("meta[name='csrf-token']").getAttribute("
 // Define hooks
 let Hooks = { Trix };
 
+Hooks.InfiniteScroll = {
+  mounted() {
+    this.el.addEventListener("scroll", e => {
+      const scrollPercent = this.el.scrollTop / (this.el.scrollHeight - this.el.clientHeight) * 100;
+      if (scrollPercent > 90) {
+        this.pushEvent("load-more");
+    }
+  })
+},
+};
+
+Hooks.AutoClearFlash = {
+  mounted() {
+    const flashInfo = document.getElementById("flash-info");
+    const flashError = document.getElementById("flash-err");
+
+    if (flashInfo && flashInfo.innerText.trim() !== "") {
+      setTimeout(() => {
+        this.pushEvent("lv:clear-flash", { key: "info" });
+      }, 3000); // Adjust the timeout as needed (3 seconds)
+    }
+
+    if (flashError && flashError.innerText.trim() !== "") {
+      setTimeout(() => {
+        this.pushEvent("lv:clear-flash", { key: "error" });
+      }, 3000); // Adjust the timeout as needed (3 seconds)
+    }
+  }
+}
+
+
 Hooks.LocalTime = {
   mounted() {
     this.updated();
   },
   updated() {
     const el = this.el;
-    const date = new Date(el.dateTime);
-    this.el.textContent = `${date.toLocaleString()} ${Intl.DateTimeFormat().resolvedOptions().timeZone}`;
+    // const date = new Date(el.dateTime);
+    // this.el.textContent = `${date.toLocaleString()} ${Intl.DateTimeFormat().resolvedOptions().timeZone}`;
+
+    const date = new Date(el.dateTime).getTime();
+
+    var one_day_in_milliseconds = 1000 * 60 * 60 * 24;
+    const diffTime = Math.abs(date - Date.now());
+    this.el.textContent = `${Math.ceil(diffTime / one_day_in_milliseconds)} days ago`;
   },
 };
 
