@@ -1,5 +1,5 @@
-<div>
-  <h2><%= @title %></h2>
+<div class="rounded-md">
+  <h2 class="font-title text-yellow-900 drop-shadow-xl ml-48 mb-3"><%= @title %></h2>
 
   <.form
     let={f}
@@ -9,49 +9,86 @@
     phx-change="validate"
     phx-submit="save"
   >
-    <%= label(f, :title) %>
-    <%= text_input(f, :title) %>
-    <%= error_tag(f, :title) %>
+    <%!-- Title input   --%>
 
-    <%!-- <textarea
-      field={:description}
-      id="trix-description"
-      type="hidden"
-      label="Description"
-      phx-hook="Trix"
-      phx-debounce="blur"
-    /> --%>
-    <div>
-      <%= label(f, :description, gettext("Description")) %>
+    <div class="flex">
+      <div class="text-yellow-900 font-title font-bold">
+        <%= label(f, :title) %>
+      </div>
+      <%= text_input(f, :title,
+        required: true,
+        class:
+          [
+            "focus:ring-purr overflow-auto focus:border-purr shadow-sm ring-2 ml-5 mb-4 mr-4 w-full h-6 rounded-md p-8 outline-none"
+          ] ++
+            [
+              if(f.errors[:title],
+                do:
+                  "pr-10 text-red-200 placeholder-red-300 focus:outline-none focus:ring-red-500 focus:border-red-500",
+                else: "shadow-lg text-lg text-gray-600 focus:shadow-2xl"
+              )
+            ]
+      ) %>
+    </div>
+    <div class="mt-3 ml-12 mb-0 block">
+      <%= error_tag(f, :title) %>
+    </div>
+
+    <%!-- Caption input --%>
+
+    <div class="">
+      <div class="font-title text-yellow-900 font-bold mb-3 ">
+        <%= label(f, :description, gettext("Caption")) %>
+      </div>
       <%= hidden_input(f, :description, phx_hook: "TrixEditor") %>
       <div id="richtext" phx-update="ignore">
-        <trix-editor input={input_id(f, :description)} class="trix-content"></trix-editor>
+        <trix-editor
+          input={input_id(f, :description)}
+          class={
+            [
+              "focus:ring-purr ml-10 w-[90%] pl-8 pt-4 pb-4 focus:border-purr overflow-auto shadow-md focus:shadow-xl ring-2 mb-4 h-6 rounded-md outline-none"
+            ] ++
+              [
+                if(f.errors[:description],
+                  do:
+                    "pr-10 text-red-200 placeholder-red-300 focus:outline-none focus:ring-red-500 focus:border-red-500",
+                  else: "shadow-lg text-lg text-gray-600 focus:shadow-2xl"
+                )
+              ]
+          }
+        >
+          <%!-- class="focus:ring-purr ml-10 w-[90%] focus:border-purr overflow-scroll shadow-md focus:shadow-xl ring-2 mb-4  h-6 rounded-md outline-none" --%>
+        </trix-editor>
       </div>
-      <%!-- <%= textarea f, :description, id: "trix-description", hidden: true %> --%>
-      <%!-- <%= textarea(f, :description, id: "trix-description") %> --%>
+    </div>
+    <div class="mt-3 ml-12 mb-0 block outline-red-400">
       <%= error_tag(f, :description) %>
     </div>
 
-    <%!-- <%= label(f, :description) %> --%>
-    <%!-- <%= textarea f, :description, id: "trix-description", hidden: true %> --%>
-    <%!-- <%= textarea(f, :description, id: "trix-description") %>
-    <%= error_tag(f, :description) %> --%>
+    <div class="font-title text-yellow-900 font-bold mb-3">
+      <%= label(f, :image, "Picture") %>
+    </div>
 
-    <%= label(f, :image) %>
-    <%= live_file_input(@uploads.image) %>
+    <%= live_file_input(@uploads.image, class: "rounded drop-shadow cursor-pointer") %>
     <%= for entry <- @uploads.image.entries do %>
       <%= live_img_preview(entry, style: "max-width: 100px; max-height: 100px;") %>
-      <button phx_click="remove-upload" phx-value-ref={entry.ref} aria-label="cancel">
-        Remove
+      <button
+        class="m-4 hover:outline-red-950"
+        phx-click="cancel-upload"
+        phx-value-ref={entry.ref}
+        aria-label="cancel"
+      >
+        Remove &times
       </button>
     <% end %>
 
     <%= hidden_input(f, :user_id, value: @current_user.id) %>
-    <%!-- <trix-editor input="trix-editor" id="trix-description" class="trix-content" phx-target={@myself} phx-change="validate" phx-hook="Trix"></trix-editor> --%>
-    <%!-- <trix-editor input="trix-description" id="trix-co"  phx-hook="Trix"></trix-editor> --%>
     <div>
-      <%= submit("Save", phx_disable_with: "Saving...") %>
+      <%= submit("Post",
+        phx_disable_with: "Posting...",
+        class:
+          "mt-6 rounded py-2 px-2 bg-purr text-white hover:bg-opacity-2 shadow-md hover:shadow-3xl focus:outline-tertiary"
+      ) %>
     </div>
   </.form>
-  <%!-- IO.puts("FormComponent Rendered") --%>
 </div>

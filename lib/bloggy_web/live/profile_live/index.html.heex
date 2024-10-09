@@ -23,33 +23,33 @@
 <%!-- TODO: Posts lists --%>
 <%!-- Posts Wrapper --%>
 <div class="">
-<%= if @user_posts do %>
-  <%= for post <- @user_posts do %>
-    <%!-- Card --%>
-    <div class="mb-2 card">
-      <h2 class="text-gradient"><%= post.title %></h2>
-      <%= if post.image do %>
-        <img
-          src={post.image}
-          alt="post image"
-          style="width: 500px; height: 200px; object-fit: cover;"
-        />
-      <% end %>
-      <h4><%= raw(post.description) %></h4>
-      <span><%= live_patch("Edit", to: Routes.post_index_path(@socket, :edit, post)) %></span>
-      <span>
-        <%= link("Delete",
-          to: "#",
-          phx_click: "delete",
-          phx_value_id: post.id,
-          data: [confirm: "Are you sure?"]
-        ) %>
-      </span>
-    </div>
+  <%= if @user_posts do %>
+    <%= for post <- @user_posts do %>
+      <%!-- Card --%>
+      <div class="mb-2 card">
+        <h2 class="text-gradient"><%= post.title %></h2>
+        <%= if post.image do %>
+          <img
+            src={post.image}
+            alt="post image"
+            style="width: 500px; height: 200px; object-fit: cover;"
+          />
+        <% end %>
+        <h4><%= raw(post.description) %></h4>
+        <span><%= live_patch("Edit", to: Routes.post_index_path(@socket, :edit, post)) %></span>
+        <span>
+          <%= link("Delete",
+            to: "#",
+            phx_click: "delete",
+            phx_value_id: post.id,
+            data: [confirm: "Are you sure?"]
+          ) %>
+        </span>
+      </div>
 
-    <hr />
+      <hr />
+    <% end %>
+  <% else %>
+    <p>No posts yet. <%= link("Create one", to: Routes.post_index_path(@conn, :new)) %></p>
   <% end %>
-<% else %>
-  <p>No posts yet. <%= link("Create one", to: Routes.post_index_path(@conn, :new)) %></p>
-<% end %>
 </div>

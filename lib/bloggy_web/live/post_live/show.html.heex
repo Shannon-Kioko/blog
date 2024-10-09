@@ -1,123 +1,180 @@
-<span><%= live_redirect("Back", to: Routes.post_index_path(@socket, :index)) %></span>
 <div>
-  <h2 class="text-gradient"><%= @post.title %></h2>
-  <small><%= @post.inserted_at %></small>
-  <div>
-    <img
-      src={@post.image}
-      alt="post image"
-      style="width: 500px; height: 200px; object-fit: cover;"
-    />
-  </div>
-  <h5><%= raw(@post.description) %></h5>
-  <%!-- Likes Button --%>
-  <h6><%= @like_count %></h6>
-  <%= if @show_like == false do %>
+  <a phx-click="redirect">
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      fill="none"
       viewBox="0 0 24 24"
-      stroke-width="1.5"
-      stroke="currentColor"
-      class="size-6"
-      phx-click="show_like"
-      phx-value-id={@post.id}
+      fill="currentColor"
+      class="size-10 drop-shadow hover:drop-shadow-2xl ml-5"
     >
       <path
-        stroke-linecap="round"
-        stroke-linejoin="round"
-        d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z"
+        fill-rule="evenodd"
+        d="M11.03 3.97a.75.75 0 0 1 0 1.06l-6.22 6.22H21a.75.75 0 0 1 0 1.5H4.81l6.22 6.22a.75.75 0 1 1-1.06 1.06l-7.5-7.5a.75.75 0 0 1 0-1.06l7.5-7.5a.75.75 0 0 1 1.06 0Z"
+        clip-rule="evenodd"
       />
     </svg>
-  <% else %>
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 24 24"
-      fill="red"
-      class="size-6"
-      phx-click="show_like"
-      phx-value-id={@post.id}
-    >
-      <path d="m11.645 20.91-.007-.003-.022-.012a15.247 15.247 0 0 1-.383-.218 25.18 25.18 0 0 1-4.244-3.17C4.688 15.36 2.25 12.174 2.25 8.25 2.25 5.322 4.714 3 7.688 3A5.5 5.5 0 0 1 12 5.052 5.5 5.5 0 0 1 16.313 3c2.973 0 5.437 2.322 5.437 5.25 0 3.925-2.438 7.111-4.739 9.256a25.175 25.175 0 0 1-4.244 3.17 15.247 15.247 0 0 1-.383.219l-.022.012-.007.004-.003.001a.752.752 0 0 1-.704 0l-.003-.001Z" />
-    </svg>
-  <% end %>
+    <%!-- <%= live_redirect("Back", to: Routes.post_index_path(@socket, :index)) %> --%>
+  </a>
 
-  <hr />
+  <div class=" ml-auto max-w-fit mr-auto">
+    <div class="ml-auto mr-auto">
+      <h2 class="font-title text-yellow-900 text-4xl mt-8 text-center text-wrap">
+        <%= @post.title %>
+      </h2>
+    </div>
+    <div class="absolute md:right-36 md:top-48 top-40 right-16">
+      <time
+        datetime={@post.inserted_at}
+        id={"Time-#{@post.id}"}
+        phx-hook="LocalTime"
+        class="font-semibold text-xs text-gray-700"
+      >
+      </time>
+    </div>
 
-  <div>
-    <%= if @commentor != [] do %>
-      <em>
-        <h4>Comments</h4>
-      </em>
-      <hr />
-      <%= for %{comment: comment, user: user} <- @commentor do %>
-        <div class="mb-2">
-          <small><%= user.first_name %></small> <small><%= user.last_name %></small>
-          <h5><strong><%= comment.body %></strong></h5>
-          <small><%= comment.inserted_at %></small>
-          <% IO.inspect(comment.id) %>
-        </div>
+    <div class="ml-auto mr-auto max-w-fit pt-16">
+      <img src={@post.image} alt="post image" class="max-w-3xl" />
+    </div>
 
-        <%= if @current_user.id == comment.user_id do %>
-          <%= link("Delete",
-            to: "#",
-            phx_click: "delete_comment",
-            phx_value_id: comment.id,
-            data: [confirm: "Are you sure?"]
-          ) %>
-          <%= link("Edit", to: "#", phx_click: "edit_comment", phx_value_id: comment.id) %>
-          <%= if @editing_comment_id == comment.id do %>
-            <div>
-              <h3>Edit Comment</h3>
-              <%= form_for @edit_comment_changeset, "#", [phx_submit: "submit_edit_comment"], fn f -> %>
-                <div>
-                  <%= label(f, :body, "Edit Comment") %>
-                  <%= textarea(f, :body) %>
-                  <%= error_tag(f, :body) %>
-                  <%!-- <%= hidden_input(f, :post_id, value: @post.id) %>
-                  <%= hidden_input(f, :user_id, value: @current_user.id) %> --%>
-                </div>
-                <div>
-                  <%= submit("Save") %>
-                </div>
-              <% end %>
-            </div>
-          <% end %>
-        <% end %>
-        <hr />
+    <div class="text-xl mt-6 ml-8 leading-loose"><%= raw(@post.description) %></div>
+    <%!-- Likes Button --%>
+    <div class="ml-4 mt-5">
+      <%= if @like_count > 0 do %>
+        <h6 class="font-semibold text-xs ml-4 text-gray-600"><%= @like_count %></h6>
       <% end %>
-    <% else %>
-      <small><em>No comments yet. Be the first to comment!</em></small>
-    <% end %>
-  </div>
+      <%= if @show_like == false do %>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke-width="1.0"
+          stroke="currentColor"
+          class="size-9 mb-5"
+          phx-click="show_like"
+          phx-value-id={@post.id}
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z"
+          />
+        </svg>
+      <% else %>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 24 24"
+          fill="red"
+          class="size-9 mb-5"
+          phx-click="show_like"
+          phx-value-id={@post.id}
+        >
+          <path d="m11.645 20.91-.007-.003-.022-.012a15.247 15.247 0 0 1-.383-.218 25.18 25.18 0 0 1-4.244-3.17C4.688 15.36 2.25 12.174 2.25 8.25 2.25 5.322 4.714 3 7.688 3A5.5 5.5 0 0 1 12 5.052 5.5 5.5 0 0 1 16.313 3c2.973 0 5.437 2.322 5.437 5.25 0 3.925-2.438 7.111-4.739 9.256a25.175 25.175 0 0 1-4.244 3.17 15.247 15.247 0 0 1-.383.219l-.022.012-.007.004-.003.001a.752.752 0 0 1-.704 0l-.003-.001Z" />
+        </svg>
+      <% end %>
+    </div>
 
-  <hr />
+    <hr />
 
-  <div>
-    <%= link("Add Comment", to: "#", phx_click: "show_modal") %>
-    <%= if @show_modal do %>
-      <div id="comment-modal" class="modal">
-        <div class="modal-content">
-          <span phx-click="close_modal" class="close">&times;</span>
+    <%!-- Comment Div --%>
+      <%= if @commentor != [] do %>
+        <h4 class="max-w-fit ml-auto mr-auto italic mb-6 pt-5">Comments</h4>
+        <%= for %{comment: comment, user: user} <- @commentor do %>
+          <div class="mb-5 relative">
+            <small><%= user.first_name %></small> <small><%= user.last_name %></small>
+            <h5 class="mt-4 text-sm mb-4"><strong><%= comment.body %></strong></h5>
+            <time datetime={comment.inserted_at} id={"Time-#{comment.id}"} class="absolute top-2 text-semibold text-xs text-gray-700 left-48 " phx-hook="LocalTime"></time>
 
-          <h3>Add Comment</h3>
-          <%= f = form_for @changeset, Routes.comment_index_path(@socket, :new), [phx_submit: "submit_comment"], fn f -> %>
-            <div>
-              <%!-- <%= label(f, :body, "Comment") %> --%>
-              <%= textarea(f, :body) %>
+            <% IO.inspect(comment.id) %>
+          <%= if @current_user.id == comment.user_id do %>
+            <div class="absolute top-3 right-6">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+                class="size-5"
+              >
+                <path
+                  fill-rule="evenodd"
+                  d="M10.5 6a1.5 1.5 0 1 1 3 0 1.5 1.5 0 0 1-3 0Zm0 6a1.5 1.5 0 1 1 3 0 1.5 1.5 0 0 1-3 0Zm0 6a1.5 1.5 0 1 1 3 0 1.5 1.5 0 0 1-3 0Z"
+                  clip-rule="evenodd"
+                />
+              </svg>
             </div>
-            <%= hidden_input(f, :post_id, value: @post.id) %>
-            <%= hidden_input(f, :user_id, value: @current_user.id) %>
-            <div>
-              <%= submit("Submit", class: "btn-submit") %>
-            </div>
+            <%= link("Delete",
+              to: "#",
+              phx_click: "delete_comment",
+              phx_value_id: comment.id,
+              data: [confirm: "Are you sure?"]
+            ) %>
+            <%= link("Edit", to: "#", phx_click: "edit_comment", phx_value_id: comment.id) %>
+            <%= if @editing_comment_id == comment.id do %>
+              <div>
+                <h3>Edit Comment</h3>
+                <%= form_for @edit_comment_changeset, "#", [phx_submit: "submit_edit_comment"], fn f -> %>
+                  <div>
+                    <%= label(f, :body, "Edit Comment") %>
+                    <%= textarea(f, :body) %>
+                    <%= error_tag(f, :body) %>
+                    <%!-- <%= hidden_input(f, :post_id, value: @post.id) %>
+                  <%= hidden_input(f, :user_id, value: @current_user.id) %> --%>
+                  </div>
+                  <div>
+                    <%= submit("Save") %>
+                  </div>
+                <% end %>
+              </div>
+            <% end %>
           <% end %>
-        </div>
-      </div>
-    <% end %>
-  </div>
+          </div>
 
-  <div>
+          <hr />
+        <% end %>
+      <% else %>
+        <div class="ml-auto mr-auto max-w-fit pt-5 mb-6">
+          <small><em>No comments yet. Be the first to comment!</em></small>
+        </div>
+      <% end %>
+
+    <div>
+      <div class="mt-6 shadow-md hover:shadow-inner py-2 px-3 rounded-sm text-semibold text-xs bg-yellow-900 inline">
+        <%= link("Leave Comment", to: "#", phx_click: "show_modal") %>
+      </div>
+      <%= if @show_modal do %>
+        <div id="comment-modal" class="modal">
+          <div class="modal-content rounded">
+            <span phx-click="close_modal" class="close">&times;</span>
+
+            <h3>Add Comment</h3>
+            <%= f = form_for @changeset, Routes.comment_index_path(@socket, :new), [phx_submit: "submit_comment"], fn f -> %>
+              <div>
+                <%!-- <%= label(f, :body, "Comment") %> --%>
+                <%= textarea(f, :body,
+                  placeholder: "Type Comment",
+                  class:
+                    [
+                      "focus:ring-purr overflow-auto focus:border-purr shadow-sm ring-2 ml-5 mb-4 mr-4 w-[80%] h-6 rounded-md p-8 outline-none"
+                    ] ++
+                      [
+                        if(f.errors[:title],
+                          do:
+                            "pr-10 text-red-200 placeholder-red-300 focus:outline-none focus:ring-red-500 focus:border-red-500",
+                          else: "shadow-lg text-md text-gray-600 focus:shadow-2xl"
+                        )
+                      ]
+                ) %>
+              </div>
+              <%= hidden_input(f, :post_id, value: @post.id) %>
+              <%= hidden_input(f, :user_id, value: @current_user.id) %>
+              <div>
+                <%= submit("Submit", class: "btn-submit") %>
+              </div>
+            <% end %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+
+    <%!-- <div class="mt-7">
     <%= live_patch("Edit", to: Routes.post_show_path(@socket, :edit, @post)) %> |
+  </div> --%>
   </div>
 </div>

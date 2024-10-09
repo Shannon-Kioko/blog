@@ -17,17 +17,19 @@ defmodule Bloggy.Blog do
       [%Post{}, ...]
 
   """
-    def list_posts do
-        Repo.all(from(p in Post, order_by: [desc: p.inserted_at], preload: [:user]))
-    end
+  def list_posts do
+    Repo.all(from(p in Post, order_by: [desc: p.inserted_at], preload: [:user]))
+  end
 
-    @doc """
+  @doc """
     Returns the list of posts with offset and number of pages.
   """
-    def list_posts_with_offset(page, per_page \\ 6) do
-      Repo.all(from(p in Post, order_by: [desc: p.inserted_at], preload: [:user]) |> paginate(page, per_page))
-    end
-
+  def list_posts_with_offset(page, per_page \\ 6) do
+    Repo.all(
+      from(p in Post, order_by: [desc: p.inserted_at], preload: [:user])
+      |> paginate(page, per_page)
+    )
+  end
 
   def paginate(query, page, per_page) do
     offset_by = page * per_page

@@ -25,7 +25,7 @@ defmodule BloggyWeb.PostLive.FormComponent do
     {:noreply, assign(socket, :changeset, changeset)}
   end
 
-  def handle_event("remove-upload", %{"ref" => ref}, socket) do
+  def handle_event("cancel-upload", %{"ref" => ref}, socket) do
     {:noreply, cancel_upload(socket, :image, ref)}
   end
 

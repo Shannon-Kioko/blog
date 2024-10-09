@@ -136,6 +136,10 @@ defmodule BloggyWeb.PostLive.Show do
     end
   end
 
+  def handle_event("redirect", _, socket) do
+    {:noreply, redirect(socket, to: Routes.post_index_path(socket, :index))}
+  end
+
   def get_likes(post_id) do
     Bloggy.Likes.count_likes(post_id)
   end

@@ -76,12 +76,14 @@ defmodule BloggyWeb.PostLive.Index do
   @impl true
   def handle_event("load-more", _, socket) do
     %{
-      page: page, posts: posts
+      page: page,
+      posts: posts
     } = socket.assigns
 
     next_page = page + 1
 
-    {:noreply, assign(socket, posts: posts ++ Blog.list_posts_with_offset(next_page), page: next_page)}
+    {:noreply,
+     assign(socket, posts: posts ++ Blog.list_posts_with_offset(next_page), page: next_page)}
   end
 
   @impl true
