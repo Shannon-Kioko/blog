@@ -1,9 +1,14 @@
 <%!-- Nav Container --%>
 <div class="md:p-10">
-  <nav class="p-4">
+  <nav class="p-4 sticky top-0">
     <ul class="md:flex md:justify-between font-title ">
       <%= if @current_user do %>
-        <li class="text-white  text-md md:text-xl"><%= @current_user.first_name %></li>
+        <div class="flex justify-between">
+          <li class="text-white  text-md md:text-xl"><%= @current_user.first_name %></li>
+          <%!-- <%= if @live_view_module == Elixir.BloggyWeb.ProfileLive.Index do %> --%>
+          <%!-- <li class="text-white  text-md md:text-md pr-12 md:justify-center"><%= @current_user.email %></li> --%>
+          <%!-- <% end %> --%>
+        </div>
         <%!-- <li><%= link("My Profile", to: Routes.main_page_path(@conn, :view)) %></li> --%>
         <li class="md:text-md text-sm">
           <%= live_redirect("My Posts", to: Routes.profile_index_path(@conn, :index)) %>

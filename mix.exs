@@ -51,7 +51,8 @@ defmodule Bloggy.MixProject do
       {:jason, "~> 1.2"},
       {:plug_cowboy, "~> 2.5"},
       {:ecto_enum, "~> 1.4"},
-      {:lucide_icons, "~> 1.0.0"}
+      {:lucide_icons, "~> 1.0.0"},
+      {:phoenix_html_simplified_helpers, "~> 2.1"}
     ]
   end
 

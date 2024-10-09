@@ -1,6 +1,9 @@
 defmodule BloggyWeb.PostLive.Index do
   use BloggyWeb, :live_view
 
+  use Phoenix.HTML
+  use Phoenix.HTML.SimplifiedHelpers
+
   alias Bloggy.Blog
   alias Bloggy.Blog.Post
 
@@ -18,7 +21,8 @@ defmodule BloggyWeb.PostLive.Index do
       :ok,
       socket
       # |> assign(:posts, list_posts())
-      |> assign(:posts, Blog.list_posts_with_offset(0))
+      # |> assign(:posts, Blog.list_posts_with_offset(0))
+      |> assign(posts: Blog.list_posts_user_with_offset(0))
       |> assign(current_user: user)
       |> assign(:page_title, "#{user.first_name} Posts")
       |> assign(:show_like, false)
@@ -83,7 +87,7 @@ defmodule BloggyWeb.PostLive.Index do
     next_page = page + 1
 
     {:noreply,
-     assign(socket, posts: posts ++ Blog.list_posts_with_offset(next_page), page: next_page)}
+     assign(socket, posts: posts ++ Blog.list_posts_user_with_offset(next_page), page: next_page)}
   end
 
   @impl true

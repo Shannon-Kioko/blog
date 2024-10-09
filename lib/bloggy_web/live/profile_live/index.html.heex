@@ -1,8 +1,23 @@
-<span><%= live_redirect("Back", to: Routes.post_index_path(@socket, :index)) %></span>
+<a phx-click="redirect">
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 24 24"
+    fill="currentColor"
+    class="size-10 drop-shadow hover:drop-shadow-2xl ml-5 cursor-pointer"
+  >
+    <path
+      fill-rule="evenodd"
+      d="M11.03 3.97a.75.75 0 0 1 0 1.06l-6.22 6.22H21a.75.75 0 0 1 0 1.5H4.81l6.22 6.22a.75.75 0 1 1-1.06 1.06l-7.5-7.5a.75.75 0 0 1 0-1.06l7.5-7.5a.75.75 0 0 1 1.06 0Z"
+      clip-rule="evenodd"
+    />
+  </svg>
+</a>
 
-<div class="em-gradient mb-2">
-  <h2><%= @current_user.first_name %><%= @current_user.last_name %> Posts</h2>
-  <small><%= @current_user.email %></small>
+<div class="mb-2 flex justify-center">
+  <%!-- <h1>Current LiveView Module: <%= @live_view_module %></h1> --%>
+
+  
+  <%!-- <small><%= @current_user.email %></small> --%>
 </div>
 
 <%= if @live_action in [:new, :edit] do %>
@@ -18,38 +33,67 @@
     />
   </.modal>
 <% end %>
-<%= live_patch("New Post", to: Routes.post_index_path(@socket, :new)) %>
-
-<%!-- TODO: Posts lists --%>
-<%!-- Posts Wrapper --%>
-<div class="">
-  <%= if @user_posts do %>
-    <%= for post <- @user_posts do %>
-      <%!-- Card --%>
-      <div class="mb-2 card">
-        <h2 class="text-gradient"><%= post.title %></h2>
-        <%= if post.image do %>
-          <img
-            src={post.image}
-            alt="post image"
-            style="width: 500px; height: 200px; object-fit: cover;"
-          />
-        <% end %>
-        <h4><%= raw(post.description) %></h4>
-        <span><%= live_patch("Edit", to: Routes.post_index_path(@socket, :edit, post)) %></span>
-        <span>
-          <%= link("Delete",
-            to: "#",
-            phx_click: "delete",
-            phx_value_id: post.id,
-            data: [confirm: "Are you sure?"]
-          ) %>
-        </span>
-      </div>
-
-      <hr />
+<div class="flex justify-center">
+  <span class=" ml-2 md:py-2 fixed right-6 bottom-5 lg:right-14">
+    <%= live_patch(to: Routes.post_index_path(@socket, :new)) do %>
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 24 24"
+        fill="#02182B"
+        class="size-12 lg:size-16 hover:drop-shadow-2xl drop-shadow-xl"
+      >
+        <path
+          fill-rule="evenodd"
+          d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25ZM12.75 9a.75.75 0 0 0-1.5 0v2.25H9a.75.75 0 0 0 0 1.5h2.25V15a.75.75 0 0 0 1.5 0v-2.25H15a.75.75 0 0 0 0-1.5h-2.25V9Z"
+          clip-rule="evenodd"
+        />
+      </svg>
     <% end %>
-  <% else %>
-    <p>No posts yet. <%= link("Create one", to: Routes.post_index_path(@conn, :new)) %></p>
-  <% end %>
+  </span>
+
+  <%!-- TODO: Posts lists --%>
+  <%!-- Posts Wrapper --%>
+  <div class=" w-[70%] gap-10">
+    <%!-- <div class="grid lg:grid-cols-3 md:grid-cols-2 w-[80%] gap-10"> --%>
+    <%= if @user_posts != []  do %>
+    <div class="ml-auto mr-auto max-w-fit pt-5 mb-6">
+        <h2 class="text-xl font-title text font-bold uppercase mb-6 mt-5 text-yellow-900 ">
+    <%= @current_user.first_name %> <%= @current_user.last_name %> Posts
+  </h2>
+      </div>
+      <%= for post <- @user_posts do %>
+        <%!-- Card --%>
+        <div class="mb-10 cardio relative">
+          <div class="">
+            <%= if post.image do %>
+              <img src={post.image} alt="post image" style="max-w-80 max-h-80 object-fit: cover;" />
+              <h2 class=""><%= post.title %></h2>
+            <% end %>
+            <div class="px-6 text-xl overflow-auto description text-wrap mb-16">
+              <%= raw(post.description) %>
+            </div>
+          </div>
+          <div class="absolute bottom-3 flex justify-evenly font-bold text-md drop-shadow-xl mt-6 w-full">
+            <span class="hover:drop-shadow-2xl">
+              <%= live_patch("Edit", to: Routes.post_index_path(@socket, :edit, post)) %>
+            </span>
+            <span class="text-red-500">
+              <%= link("Delete",
+                to: "#",
+                phx_click: "delete",
+                phx_value_id: post.id,
+                data: [confirm: "Are you sure?"],
+                class: "text-red-500 rounded px-1 py-1 hover:bg-red-500 hover:text-white"
+              ) %>
+            </span>
+          </div>
+        </div>
+      <% end %>
+    <% else %>
+    <div class="ml-auto mr-auto max-w-fit pt-5 mb-6">
+        <small><em>No post yet. Create your first post!</em></small>
+      </div>
+      <%!-- <p class="">No posts yet. <%= link("Create one", to: Routes.post_index_path(@socket, :new)) %></p> --%>
+    <% end %>
+  </div>
 </div>

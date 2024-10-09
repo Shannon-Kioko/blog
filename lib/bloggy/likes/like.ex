@@ -13,6 +13,8 @@ defmodule Bloggy.Likes.Like do
   def changeset(like, attrs) do
     like
     |> cast(attrs, [:user_id, :post_id])
-    |> validate_required([:user_id, :post_id])
+    |> validate_required([:user_id])
+
+    # |> validate_required([:user_id, :post_id])
   end
 end

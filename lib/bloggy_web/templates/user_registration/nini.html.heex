@@ -1,49 +1,57 @@
-<div class="cardio mr-auto ml-auto mt-20 max-w-fit px-7 py-3 flex justify-center flex-col items-center ">
-  <h1 class="my-6 uppercase">Register</h1>
+<div class="cardio mr-auto ml-auto mt-8 md:mt-20 max-w-lg px-7 py-3 flex flex-col items-center">
+  <h1 class="uppercase text-center">Register</h1>
 
-  <.form let={f} for={@changeset} action={Routes.user_registration_path(@conn, :create)}>
+  <.form
+    let={f}
+    for={@changeset}
+    action={Routes.user_registration_path(@conn, :create)}
+    class="w-full"
+  >
     <%= if @changeset.action do %>
-      <div class="alert alert-danger">
+      <div class="alert alert-danger text-red-600 mb-4 text-center">
         <p>Oops, something went wrong! Please check the errors below.</p>
       </div>
     <% end %>
-    <div class="grid grid-cols-2 gap-6 w-full px-3">
-      <div class="col-span-2 sm:col-span-1">
+
+    <div class="grid grid-cols-2 gap-6 w-full">
+      <!-- First Name and Last Name -->
+      <div class="mb-4 col-span-2 sm:col-span-1">
         <%= label(f, :first_name, class: "text-secondary text-lg font-semibold") %>
-        <%= text_input(f, :first_name, required: true, class: "input w-full mt-3") %>
+        <%= text_input(f, :first_name, required: true, class: "input w-full") %>
         <%= error_tag(f, :first_name) %>
       </div>
-      <div class="col-span-2 sm:col-span-1">
+
+      <div class="mb-4 col-span-2 sm:col-span-1">
         <%= label(f, :last_name, class: "text-secondary text-lg font-semibold") %>
-        <%= text_input(f, :last_name, required: true, class: "input w-full mt-3") %>
+        <%= text_input(f, :last_name, required: true, class: "input w-full") %>
         <%= error_tag(f, :last_name) %>
       </div>
-
-      <div class="col-span-2 sm:col-span-1">
+      <!-- Email and Phone -->
+      <div class="mb-4 col-span-2 sm:col-span-1">
         <%= label(f, :email, class: "text-secondary text-lg font-semibold") %>
-        <%= email_input(f, :email, required: true, class: "input w-full mt-3") %>
+        <%= email_input(f, :email, required: true, class: "input w-full") %>
         <%= error_tag(f, :email) %>
       </div>
 
-      <div class="col-span-2 sm:col-span-1">
+      <div class="mb-4 col-span-2 sm:col-span-1">
         <%= label(f, :phone, class: "text-secondary text-lg font-semibold") %>
-        <div class="relative mt-2 rounded-md shadow-sm input pl-5">
+        <div class="relative mt-2 rounded-md shadow-sm w-full">
           <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
             <span class="text-gray-500 sm:text-sm">+254</span>
           </div>
-          <%= text_input(f, :phone, required: true, class: "outline-none ml-8") %>
+          <%= text_input(f, :phone, required: true, class: "pl-12 input w-full") %>
         </div>
         <%= error_tag(f, :phone) %>
       </div>
-
+      <!-- Password -->
       <div class="mb-4 col-span-2">
         <%= label(f, :password, class: "text-secondary text-lg font-semibold") %>
         <%= password_input(f, :password, required: true, class: "input w-full") %>
         <%= error_tag(f, :password) %>
       </div>
     </div>
-
-    <div>
+    <!-- Terms and Conditions -->
+    <div class="my-4 w-full">
       <label for="user_terms_and_conditions" class="text-secondary text-lg font-semibold">
         <%= checkbox(f, :terms_and_conditions, required: true) %> I agree to the <%= link(
           "Terms and Conditions",
@@ -54,16 +62,16 @@
       </label>
       <%= error_tag(f, :terms_and_conditions) %>
     </div>
-
-    <div class="text-xl font-bold text-secondary  mt-8">
-      <div class="hover:underline mb-7">
-        <%= submit("Register", class: "hover:shadow-xl text-white bg-secondary p-3 rounded") %>
-      </div>
-      <p class="mr-20 text-sm">
-        <%= link("Log in", to: Routes.user_session_path(@conn, :new), class: "hover:underline") %> | <%= link(
-          "Forgot your password?",
+    <!-- Submit and Links -->
+    <div class="flex justify-between items-center w-full mt-8">
+      <%= submit("Register", class: "bg-blue-500 text-white  px-4 py-2 rounded-lg") %>
+      <p class="text-sm text-gray-600">
+        <%= link("Log in",
+          to: Routes.user_session_path(@conn, :new),
+          class: "text-blue-500 hover:underline"
+        ) %> | <%= link("Forgot your password?",
           to: Routes.user_reset_password_path(@conn, :new),
-          class: "hover:underline"
+          class: "text-blue-500 hover:underline"
         ) %>
       </p>
     </div>

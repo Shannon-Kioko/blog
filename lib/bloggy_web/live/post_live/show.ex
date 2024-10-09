@@ -1,6 +1,9 @@
 defmodule BloggyWeb.PostLive.Show do
   use BloggyWeb, :live_view
 
+  use Phoenix.HTML
+  use Phoenix.HTML.SimplifiedHelpers
+
   alias Bloggy.Blog
   # alias Bloggy.Comments
   alias Bloggy.Comments.Comment

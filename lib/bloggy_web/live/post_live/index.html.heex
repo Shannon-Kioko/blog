@@ -7,6 +7,8 @@
   <% end %>
 
     <main class="overflow-y-scroll flex-1">
+
+    <%!-- Page Title --%>
       <div class="flex justify-center ">
         <h2 class="text-xl font-title text font-bold uppercase mb-6 mt-5 text-yellow-900 ">
           Bloggy Posts
@@ -14,6 +16,7 @@
       </div>
 
       <div class="flex justify-center">
+<%!-- Add New Post --%>
         <span class=" ml-2 md:py-2 fixed right-6 bottom-5 lg:right-14">
           <%= live_patch(to: Routes.post_index_path(@socket, :new)) do %>
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#02182B" class="size-12 lg:size-16 hover:drop-shadow-2xl drop-shadow-xl">
@@ -24,25 +27,34 @@
             <% end %>
         </span>
 
+
         <!-- Posts Wrapper -->
         <div class="grid lg:grid-cols-3 md:grid-cols-2 px-3 w-[80%] gap-10" id="post-#{@page}"
           phx-hook="InfiniteScroll">
-          <%= for post <- @posts do %>
+          <%= for %{post: post, user: user} <- @posts do %>
             <!-- Post Card -->
-            <div id={"post-#{post.id}"} class="card">
+            <div id={"post-#{post.id}"} class="card relative">
               <div class="rounded">
                 <img src={post.image} alt="post image" class="h-50 sm:h-48 w-full object-cover" />
               </div>
-              <!-- Card Content -->
-              <div class="pb-12">
 
-                <h2>
+              <div class="absolute right-3 flex text-gray-700 text-xs mt-2"> 
+              
+              <div>By &nbsp<span class="font-bold "><%=user.first_name %> <%=user.last_name %></span></div>
+              
+              </div>
+              <!-- Card Content -->
+              <div class="pb-12 pt-7">
+
+                <h2 class="mt-4">
                   <%= post.title %>
                 </h2>
-                <div class="absolute mb-2 right-3 bottom-3">
+               
+                <div class="absolute bottom-3 right-3 text-sm">
                   <small>
-                    <time datetime={post.inserted_at} id={"Time-#{post.id}"} phx-hook="LocalTime">
-                    </time>
+                    <%!-- <time datetime={post.inserted_at} id={"Time-#{post.id}"} phx-hook="LocalTime">
+                    </time> --%>
+                    <%= time_ago_in_words(post.inserted_at) %> ago
                   </small>
                 </div>
               </div>

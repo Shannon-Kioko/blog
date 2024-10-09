@@ -4,7 +4,7 @@
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 24 24"
       fill="currentColor"
-      class="size-10 drop-shadow hover:drop-shadow-2xl ml-5"
+      class="size-10 drop-shadow hover:drop-shadow-2xl ml-5 cursor-pointer"
     >
       <path
         fill-rule="evenodd"
@@ -12,30 +12,26 @@
         clip-rule="evenodd"
       />
     </svg>
-    <%!-- <%= live_redirect("Back", to: Routes.post_index_path(@socket, :index)) %> --%>
   </a>
+  <%!-- <%= live_redirect("Back", to: Routes.post_index_path(@socket, :index)) %> --%>
 
-  <div class=" ml-auto max-w-fit mr-auto">
+  <div class=" ml-auto w-[70%] mr-auto mb-4">
     <div class="ml-auto mr-auto">
       <h2 class="font-title text-yellow-900 text-4xl mt-8 text-center text-wrap">
         <%= @post.title %>
       </h2>
     </div>
     <div class="absolute md:right-36 md:top-48 top-40 right-16">
-      <time
-        datetime={@post.inserted_at}
-        id={"Time-#{@post.id}"}
-        phx-hook="LocalTime"
-        class="font-semibold text-xs text-gray-700"
-      >
-      </time>
+      <div class="font-semibold text-xs text-gray-700">
+        <%= time_ago_in_words(@post.inserted_at) %> ago
+      </div>
     </div>
 
     <div class="ml-auto mr-auto max-w-fit pt-16">
-      <img src={@post.image} alt="post image" class="max-w-3xl" />
+      <img src={@post.image} alt="post image" class="md:max-w-3xl max-w-80" />
     </div>
 
-    <div class="text-xl mt-6 ml-8 leading-loose"><%= raw(@post.description) %></div>
+    <div class="text-xl mt-6 ml-8 px-4 leading-loose"><%= raw(@post.description) %></div>
     <%!-- Likes Button --%>
     <div class="ml-4 mt-5">
       <%= if @like_count > 0 do %>
@@ -48,7 +44,7 @@
           viewBox="0 0 24 24"
           stroke-width="1.0"
           stroke="currentColor"
-          class="size-9 mb-5"
+          class="size-9 mb-5 cursor-pointer"
           phx-click="show_like"
           phx-value-id={@post.id}
         >
@@ -63,7 +59,7 @@
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 24 24"
           fill="red"
-          class="size-9 mb-5"
+          class="size-9 mb-5 cursor-pointer"
           phx-click="show_like"
           phx-value-id={@post.id}
         >
@@ -75,15 +71,21 @@
     <hr />
 
     <%!-- Comment Div --%>
-      <%= if @commentor != [] do %>
-        <h4 class="max-w-fit ml-auto mr-auto italic mb-6 pt-5">Comments</h4>
-        <%= for %{comment: comment, user: user} <- @commentor do %>
-          <div class="mb-5 relative">
-            <small><%= user.first_name %></small> <small><%= user.last_name %></small>
-            <h5 class="mt-4 text-sm mb-4"><strong><%= comment.body %></strong></h5>
-            <time datetime={comment.inserted_at} id={"Time-#{comment.id}"} class="absolute top-2 text-semibold text-xs text-gray-700 left-48 " phx-hook="LocalTime"></time>
+    <%= if @commentor != [] do %>
+      <h4 class="max-w-fit ml-auto mr-auto italic mb-6 pt-5">Comments</h4>
+      <%= for %{comment: comment, user: user} <- @commentor do %>
+        <div class="mb-5 relative">
+          <small class="text-gray-700 font-bold"><%= user.first_name %></small>
+          <small><%= user.last_name %></small>
+          <h5 class="mt-4 text-sm mb-4 px-4"><strong><%= comment.body %></strong></h5>
+          <time
+            datetime={comment.inserted_at}
+            id={"Time-#{comment.id}"}
+            class="absolute top-2 text-semibold text-xs text-gray-700 left-48 "
+            phx-hook="LocalTime"
+          >
+          </time>
 
-            <% IO.inspect(comment.id) %>
           <%= if @current_user.id == comment.user_id do %>
             <div class="absolute top-3 right-6">
               <svg
@@ -99,13 +101,15 @@
                 />
               </svg>
             </div>
-            <%= link("Delete",
-              to: "#",
-              phx_click: "delete_comment",
-              phx_value_id: comment.id,
-              data: [confirm: "Are you sure?"]
-            ) %>
-            <%= link("Edit", to: "#", phx_click: "edit_comment", phx_value_id: comment.id) %>
+            <div class="flex flex-col absolute bottom-1 text-xs right-10 mt-5">
+              <%= link("Delete",
+                to: "#",
+                phx_click: "delete_comment",
+                phx_value_id: comment.id,
+                data: [confirm: "Are you sure?"]
+              ) %>
+              <%= link("Edit", to: "#", phx_click: "edit_comment", phx_value_id: comment.id) %>
+            </div>
             <%= if @editing_comment_id == comment.id do %>
               <div>
                 <h3>Edit Comment</h3>
@@ -124,15 +128,15 @@
               </div>
             <% end %>
           <% end %>
-          </div>
-
-          <hr />
-        <% end %>
-      <% else %>
-        <div class="ml-auto mr-auto max-w-fit pt-5 mb-6">
-          <small><em>No comments yet. Be the first to comment!</em></small>
         </div>
+
+        <hr />
       <% end %>
+    <% else %>
+      <div class="ml-auto mr-auto max-w-fit pt-5 mb-6">
+        <small><em>No comments yet. Be the first to comment!</em></small>
+      </div>
+    <% end %>
 
     <div>
       <div class="mt-6 shadow-md hover:shadow-inner py-2 px-3 rounded-sm text-semibold text-xs bg-yellow-900 inline">

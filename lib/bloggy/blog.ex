@@ -31,6 +31,22 @@ defmodule Bloggy.Blog do
     )
   end
 
+  @doc """
+    Returns the list of posts and users with offset and number of pages.
+  """
+  def list_posts_user_with_offset(page, per_page \\ 6) do
+    Repo.all(
+      from(p in Post,
+        join: u in assoc(p, :user),
+        where: p.user_id == u.id,
+        select: %{post: p, user: u},
+        order_by: [desc: p.inserted_at],
+        preload: [:user]
+      )
+      |> paginate(page, per_page)
+    )
+  end
+
   def paginate(query, page, per_page) do
     offset_by = page * per_page
 

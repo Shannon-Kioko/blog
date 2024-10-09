@@ -17,6 +17,7 @@ defmodule BloggyWeb.ProfileLive.Index do
       |> assign(:current_user, user)
       |> assign(:user_posts, user_posts)
       |> assign(:editing_post_id, nil)
+      # |> assign(:live_view_module, __MODULE__)
       # TODO: |> assign(uploaded_files: [])
       # |> allow_upload(:image, accept: ~w(.jpg .png .jpeg), max_entries: 1)
       # |> assign(socket, :profile_collection, list_profile())
@@ -33,6 +34,11 @@ defmodule BloggyWeb.ProfileLive.Index do
 
     user_posts = Blog.get_post_by_user(socket.assigns.current_user.id)
     {:noreply, assign(socket, :user_posts, user_posts)}
+  end
+
+  @impl true
+  def handle_event("redirect", _, socket) do
+    {:noreply, redirect(socket, to: Routes.post_index_path(socket, :index))}
   end
 
   @impl true
