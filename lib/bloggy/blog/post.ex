@@ -2,6 +2,7 @@ defmodule Bloggy.Blog.Post do
   use Ecto.Schema
   import Ecto.Changeset
 
+  @derive {Jason.Encoder, only: [:id, :title, :description, :user_id]}
   schema "posts" do
     field :description, :string
     field :title, :string

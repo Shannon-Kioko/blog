@@ -17,6 +17,13 @@ defmodule BloggyWeb.Router do
     plug :accepts, ["json"]
   end
 
+  scope "/api", BloggyWeb do
+    pipe_through :api
+    get "/posts", PostController, :index
+    get "/userposts/:id", PostController, :show
+    delete "/posts/:id", PostController, :delete
+  end
+
   scope "/", BloggyWeb do
     pipe_through :browser
 
